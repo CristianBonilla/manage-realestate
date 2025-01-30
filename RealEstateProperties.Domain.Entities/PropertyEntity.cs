@@ -7,7 +7,7 @@ namespace RealEstateProperties.Domain.Entities
     public required string Name { get; set; }
     public required string Address { get; set; }
     public required decimal Price { get; set; }
-    public Guid CodeInternal { get; set; }
+    public int CodeInternal { get; set; }
     public int Year { get; set; }
     public DateTimeOffset Created { get; set; }
     public byte[] Version { get; set; } = null!;
