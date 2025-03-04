@@ -1,9 +1,8 @@
 using RealEstateProperties.Domain.SeedWork.Collections.Auth;
 
-namespace RealEstateProperties.Domain.SeedWork.Collections
+namespace RealEstateProperties.Domain.SeedWork.Collections;
+
+class AuthCollection
 {
-  class AuthCollection
-  {
-    public static UserCollection Users => new();
-  }
+  public static UserCollection Users => new();
 }

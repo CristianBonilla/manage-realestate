@@ -1,7 +1,6 @@
-namespace RealEstateProperties.API.Installers
+namespace RealEstateProperties.API.Installers;
+
+interface IInstaller
 {
-  interface IInstaller
-  {
-    void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env);
-  }
+  void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env);
 }

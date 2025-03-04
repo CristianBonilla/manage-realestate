@@ -6,52 +6,51 @@ using RealEstateProperties.Domain.Helpers;
 using RealEstateProperties.Infrastructure.Repositories.Auth.Interfaces;
 using RealEstateProperties.Infrastructure.Repositories.RealEstateProperties.Interfaces;
 
-namespace RealEstateProperties.Domain.Services
+namespace RealEstateProperties.Domain.Services;
+
+public class AuthService(IRealEstatePropertiesRepositoryContext context, IUserRepository userRepository) : IAuthService
 {
-  public class AuthService(IRealEstatePropertiesRepositoryContext context, IUserRepository userRepository) : IAuthService
+  readonly IRealEstatePropertiesRepositoryContext _context = context;
+  readonly IUserRepository _userRepository = userRepository;
+
+  public async Task<UserEntity> AddUser(UserEntity user)
   {
-    readonly IRealEstatePropertiesRepositoryContext _context = context;
-    readonly IUserRepository _userRepository = userRepository;
+    var (password, salt) = HashPasswordHelper.Create(user.Password);
+    user.Password = password;
+    user.Salt = salt;
+    user.IsActive = true;
+    UserEntity addedUser = _userRepository.Create(user);
+    _ = await _context.SaveAsync();
 
-    public async Task<UserEntity> AddUser(UserEntity user)
-    {
-      var (password, salt) = HashPasswordHelper.Create(user.Password);
-      user.Password = password;
-      user.Salt = salt;
-      user.IsActive = true;
-      UserEntity addedUser = _userRepository.Create(user);
-      _ = await _context.SaveAsync();
+    return addedUser;
+  }
 
-      return addedUser;
-    }
+  public async Task<bool> UserExists(string documentNumber, string username)
+    => await GetUsers().AnyAsync(user => StringCommonHelper.IsStringEquivalent(user.DocumentNumber, documentNumber) || StringCommonHelper.IsStringEquivalent(user.Username, username));
 
-    public async Task<bool> UserExists(string documentNumber, string username)
-      => await GetUsers().AnyAsync(user => StringCommonHelper.IsStringEquivalent(user.DocumentNumber, documentNumber) || StringCommonHelper.IsStringEquivalent(user.Username, username));
+  public IAsyncEnumerable<UserEntity> GetUsers()
+  {
+    var users = _userRepository.GetAll(users => users.OrderBy(order => order.Firstname)
+      .ThenBy(order => order.Username))
+      .ToAsyncEnumerable();
 
-    public IAsyncEnumerable<UserEntity> GetUsers()
-    {
-      var users = _userRepository.GetAll(users => users.OrderBy(order => order.Firstname)
-        .ThenBy(order => order.Username))
-        .ToAsyncEnumerable();
+    return users;
+  }
 
-      return users;
-    }
+  public Task<UserEntity> FindUserById(Guid userId)
+  {
+    UserEntity user = _userRepository.Find([userId])
+      ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"User not found with user identifier \"{userId}\"");
 
-    public Task<UserEntity> FindUserById(Guid userId)
-    {
-      UserEntity user = _userRepository.Find([userId])
-        ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"User not found with user identifier \"{userId}\"");
+    return Task.FromResult(user);
+  }
 
-      return Task.FromResult(user);
-    }
+  public async Task<UserEntity> FindUserByUsernameOrEmail(string usernameOrEmail)
+  {
+    UserEntity user = await GetUsers()
+      .FirstOrDefaultAsync(user => StringCommonHelper.IsStringEquivalent(user.Username, usernameOrEmail) || StringCommonHelper.IsStringEquivalent(user.Email, usernameOrEmail))
+      ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"User not found with user username or email \"{usernameOrEmail}\"");
 
-    public async Task<UserEntity> FindUserByUsernameOrEmail(string usernameOrEmail)
-    {
-      UserEntity user = await GetUsers()
-        .FirstOrDefaultAsync(user => StringCommonHelper.IsStringEquivalent(user.Username, usernameOrEmail) || StringCommonHelper.IsStringEquivalent(user.Email, usernameOrEmail))
-        ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"User not found with user username or email \"{usernameOrEmail}\"");
-
-      return user;
-    }
+    return user;
   }
 }

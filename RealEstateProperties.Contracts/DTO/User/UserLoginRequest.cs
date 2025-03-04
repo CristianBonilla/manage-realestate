@@ -1,8 +1,7 @@
-namespace RealEstateProperties.Contracts.DTO.User
+namespace RealEstateProperties.Contracts.DTO.User;
+
+public class UserLoginRequest
 {
-  public class UserLoginRequest
-  {
-    public required string UsernameOrEmail { get; set; }
-    public required string Password { get; set; }
-  }
+  public required string UsernameOrEmail { get; set; }
+  public required string Password { get; set; }
 }

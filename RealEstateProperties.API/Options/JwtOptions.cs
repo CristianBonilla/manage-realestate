@@ -1,8 +1,7 @@
-namespace RealEstateProperties.API.Options
+namespace RealEstateProperties.API.Options;
+
+class JwtOptions
 {
-  class JwtOptions
-  {
-    public required string Secret { get; set; }
-    public required int ExpiresInDays { get; set; }
-  }
+  public required string Secret { get; set; }
+  public required int ExpiresInDays { get; set; }
 }
