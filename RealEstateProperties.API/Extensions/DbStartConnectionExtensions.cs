@@ -2,18 +2,12 @@ using System.Data.Common;
 using System.Net.Sockets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using RealEstateProperties.Contracts.Enums;
 
 namespace RealEstateProperties.API.Extensions;
 
-static class DbStartExtensions
+static class DbStartConnectionExtensions
 {
-  enum DbStartType
-  {
-    OpenConnection = 1,
-    EnsureCreated = 2,
-    Migrate = 3
-  }
-
   public static (Func<Task> OpenConnection, Func<Task> EnsureCreated, Func<Task> Migrate) DbStart<TContext>(this IHost host) where TContext : DbContext
   {
     int delay = 0;
