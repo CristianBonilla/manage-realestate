@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
-using RealEstateProperties.API.Extensions;
+using RealEstateProperties.API.Utils;
+using RealEstateProperties.Contracts.Enums;
 using RealEstateProperties.Infrastructure.Contexts.RealEstateProperties;
 
 namespace RealEstateProperties.API;
@@ -9,7 +10,7 @@ public class Program
   public static async Task Main(string[] args)
   {
     IHost host = CreateHostBuilder(args).Build();
-    await host.DbStart<RealEstatePropertiesContext>().Migrate();
+    await DbConnectionSingleton.Start(host).Connect<RealEstatePropertiesContext>(DbStart.Migration);
     await host.RunAsync();
   }
 

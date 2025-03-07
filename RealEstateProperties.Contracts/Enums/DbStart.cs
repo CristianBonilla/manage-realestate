@@ -1,8 +1,8 @@
 namespace RealEstateProperties.Contracts.Enums;
 
-public enum DbStartType
+public enum DbStart
 {
   OpenConnection = 1,
   EnsureCreated = 2,
-  Migrate = 3
+  Migration = 3
 }
