@@ -2,7 +2,7 @@ using Autofac;
 using RealEstateProperties.API.Extensions;
 using RealEstateProperties.API.Modules;
 using RealEstateProperties.API.Options;
-using RealEstateProperties.Domain.Helpers;
+using RealEstateProperties.API.Utils;
 
 namespace RealEstateProperties.API;
 

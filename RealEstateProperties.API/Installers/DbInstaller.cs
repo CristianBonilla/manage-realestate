@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using RealEstateProperties.Domain.Helpers;
+using RealEstateProperties.API.Utils;
 using RealEstateProperties.Infrastructure.Contexts.RealEstateProperties;
 
 namespace RealEstateProperties.API.Installers;

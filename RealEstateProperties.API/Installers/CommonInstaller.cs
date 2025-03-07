@@ -3,8 +3,8 @@ using Asp.Versioning;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using RealEstateProperties.Domain.Helpers;
 using RealEstateProperties.API.Filters;
+using RealEstateProperties.API.Utils;
 
 namespace RealEstateProperties.API.Installers;
 

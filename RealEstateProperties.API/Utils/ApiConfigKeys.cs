@@ -1,6 +1,6 @@
-namespace RealEstateProperties.Domain.Helpers;
+namespace RealEstateProperties.API.Utils;
 
-public record struct ApiConfigKeys
+record struct ApiConfigKeys
 {
   public const string AllowOrigins = nameof(AllowOrigins);
   public const string Bearer = nameof(Bearer);
