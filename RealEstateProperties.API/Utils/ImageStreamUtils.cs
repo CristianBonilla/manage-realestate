@@ -1,9 +1,9 @@
 using System.IO.Compression;
 using RealEstateProperties.Domain.Entities;
 
-namespace RealEstateProperties.API.Utils;
-
 using ImageInfo = (byte[] imageBytes, string contentType, string imageName);
+
+namespace RealEstateProperties.API.Utils;
 
 class ImageStreamUtils
 {
