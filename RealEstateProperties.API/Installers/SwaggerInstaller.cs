@@ -2,11 +2,15 @@ using Microsoft.OpenApi.Models;
 using RealEstateProperties.API.Filters;
 using RealEstateProperties.API.Options;
 using RealEstateProperties.API.Utils;
+using RealEstateProperties.Contracts.Enums;
+using RealEstateProperties.Domain.Helpers;
 
 namespace RealEstateProperties.API.Installers;
 
 class SwaggerInstaller : IInstaller
 {
+  static readonly string _xmlCommentsFilePath = DirectoryConfigHelper.GetDirectoryFilePathFromAssemblyName(FileFormatTypes.Xml);
+
   public void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
   {
     IConfigurationSection swaggerSection = configuration.GetSection(nameof(SwaggerOptions));
@@ -32,6 +36,7 @@ class SwaggerInstaller : IInstaller
         };
         options.AddSecurityDefinition(ApiConfigKeys.Bearer, apiSecurity);
         options.AddSecurityRequirement(new() { { apiSecurity, new List<string>() } });
+        options.IncludeXmlComments(_xmlCommentsFilePath);
       }
     });
   }
