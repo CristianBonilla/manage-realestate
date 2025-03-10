@@ -10,7 +10,7 @@ public class Program
   public static async Task Main(string[] args)
   {
     IHost host = CreateHostBuilder(args).Build();
-    await DbConnectionSingleton.Start(host).Connect<RealEstatePropertiesContext>(DbStart.Migration);
+    await DbConnectionSingleton.Start(host).Connect<RealEstatePropertiesContext>(DbConnectionTypes.Migration);
     await host.RunAsync();
   }
 

@@ -21,7 +21,7 @@ class DbConnectionSingleton
     return _instance.Value;
   }
 
-  public async Task Connect<TContext>(DbStart start) where TContext : DbContext
+  public async Task Connect<TContext>(DbConnectionTypes connectionType) where TContext : DbContext
   {
     AsyncServiceScope scope = _host.Services.CreateAsyncScope();
     TContext context = scope.ServiceProvider.GetRequiredService<TContext>();
@@ -30,12 +30,12 @@ class DbConnectionSingleton
     {
       await using (scope.ConfigureAwait(false))
       {
-        await (start switch
+        await (connectionType switch
         {
-          DbStart.OpenConnection => database.OpenConnectionAsync(),
-          DbStart.EnsureCreated => database.EnsureCreatedAsync(),
-          DbStart.Migration => database.MigrateAsync(),
-          _ => throw new ArgumentOutOfRangeException(nameof(start), $"Not expected DB start value: {start}")
+          DbConnectionTypes.OpenConnection => database.OpenConnectionAsync(),
+          DbConnectionTypes.EnsureCreated => database.EnsureCreatedAsync(),
+          DbConnectionTypes.Migration => database.MigrateAsync(),
+          _ => throw new ArgumentOutOfRangeException(nameof(connectionType), $"Not expected DB connection type: {connectionType}")
         });
         _delay = 0;
         Console.WriteLine($"{typeof(TContext).Name} DB connection started successfully.");
@@ -58,7 +58,7 @@ class DbConnectionSingleton
     {
       await Task.Delay(TimeSpan.FromSeconds(1));
       Console.WriteLine($"{++_delay} seconds have passed, retrying DB connection...");
-      await Connect<TContext>(start);
+      await Connect<TContext>(connectionType);
     }
   }
 }
