@@ -26,12 +26,12 @@ class JwtInstaller : IInstaller
       jwt.SaveToken = true;
       jwt.TokenValidationParameters = new()
       {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
         ValidateIssuer = false,
         ValidateAudience = false,
-        RequireExpirationTime = false,
-        ValidateLifetime = true
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+        RequireExpirationTime = true
       };
     });
     services.AddAuthorization();
