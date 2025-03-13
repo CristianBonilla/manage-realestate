@@ -27,18 +27,21 @@ class Startup(IConfiguration configuration, IWebHostEnvironment env)
   public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
   {
     if (env.IsDevelopment())
-    {
       app.UseDeveloperExceptionPage();
-      SwaggerOptions? swagger = _configuration.GetSection(nameof(SwaggerOptions)).Get<SwaggerOptions>();
-      if (swagger is not null)
-      {
-        app.UseSwagger(options => options.RouteTemplate = swagger.JsonRoute);
-        app.UseSwaggerUI(options => options.SwaggerEndpoint(swagger.UIEndpoint, swagger.Info.Description));
-      }
+    else
+      app.UseHsts();
+    SwaggerOptions? swagger = _configuration
+      .GetSection(nameof(SwaggerOptions))
+      .Get<SwaggerOptions>();
+    if (swagger is not null)
+    {
+      app.UseSwagger(options => options.RouteTemplate = swagger.JsonRoute);
+      app.UseSwaggerUI(options => options.SwaggerEndpoint(swagger.UIEndpoint, swagger.Info.Description));
     }
     app.UseCors(ApiConfigKeys.AllowOrigins);
     app.UseHttpsRedirection();
     app.UseRouting();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.UseEndpoints(endpoints =>
     {
