@@ -26,15 +26,11 @@ public class DirectoryConfigHelper
     }
   }
 
-  public static string GetDirectoryFilePathFromAssemblyName(FileFormatTypes fileFormat)
+  public static string GetDirectoryFilePathFromAssemblyName(FileFormatTypes fileFormat, Assembly? assembly = null)
   {
-    AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
-    string path = Path.Combine(DirectoryPath, assemblyName.Name!, fileFormat.GetFormatType());
-    if (!File.Exists(path))
-    {
-      using FileStream stream = new(path, FileMode.Create, FileAccess.Write);
-      stream.Close();
-    }
+    assembly ??= Assembly.GetExecutingAssembly();
+    AssemblyName assemblyName = assembly.GetName();
+    string path = Path.Combine(DirectoryPath, $"{assemblyName.Name!}{fileFormat.GetFormatType()}");
 
     return path;
   }
