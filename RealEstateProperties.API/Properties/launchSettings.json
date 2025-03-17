@@ -39,7 +39,7 @@
         "ASPNETCORE_URLS": "https://+:905;http://+:791",
         "ASPNETCORE_HTTPS_PORTS": "30901",
         "ASPNETCORE_HTTP_PORTS": "30900",
-        "LOCALDB_PLATFORM": "false"
+        "LOCALDB_PLATFORM": "true"
       },
       "publishAllPorts": true,
       "httpPort": 30900,
@@ -53,7 +53,7 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:39720",
-      "sslPort": 47382
+      "sslPort": 44391
     }
   }
 }
