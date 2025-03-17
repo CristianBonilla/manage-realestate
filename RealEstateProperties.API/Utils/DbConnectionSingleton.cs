@@ -6,11 +6,13 @@ using RealEstateProperties.Contracts.Enums;
 
 namespace RealEstateProperties.API.Utils;
 
+using ContextScope = (AsyncServiceScope scope, DbContext context, DatabaseFacade database);
+
 class DbConnectionSingleton
 {
   static Lazy<DbConnectionSingleton>? _instance;
   readonly IHost _host;
-  
+
   private DbConnectionSingleton(IHost host) => _host = host;
 
   public static DbConnectionSingleton Start(IHost host)
@@ -25,9 +27,7 @@ class DbConnectionSingleton
     int delay = 0;
     do
     {
-      AsyncServiceScope scope = _host.Services.CreateAsyncScope();
-      TContext context = scope.ServiceProvider.GetRequiredService<TContext>();
-      DatabaseFacade database = context.Database;
+      var (scope, _, database) = GetContextScope<TContext>();
       try
       {
         await using (scope.ConfigureAwait(false))
@@ -74,10 +74,17 @@ class DbConnectionSingleton
 
   public async Task<bool> TestConnection<TContext>() where TContext : DbContext
   {
+    var (_, _, database) = GetContextScope<TContext>();
+
+    return await database.CanConnectAsync();
+  }
+
+  private ContextScope GetContextScope<TContext>() where TContext : DbContext
+  {
     AsyncServiceScope scope = _host.Services.CreateAsyncScope();
     TContext context = scope.ServiceProvider.GetRequiredService<TContext>();
     DatabaseFacade database = context.Database;
 
-    return await database.CanConnectAsync();
+    return (scope, context, database);
   }
 }
