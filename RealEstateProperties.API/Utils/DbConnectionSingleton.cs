@@ -43,6 +43,12 @@ class DbConnectionSingleton
           Console.WriteLine($"{typeof(TContext).Name} DB connection started successfully.");
         }
       }
+      catch (PlatformNotSupportedException)
+      {
+        Console.WriteLine("Unhandled exception due to incompatibility for DB connection.");
+
+        throw;
+      }
       catch (InvalidOperationException)
       {
         Console.WriteLine("Unhandled exception while DB connection.");
@@ -59,6 +65,7 @@ class DbConnectionSingleton
       catch (DbException exception) when (exception.InnerException is null)
       {
         await Task.Delay(TimeSpan.FromSeconds(1));
+        Console.WriteLine(exception.Message);
         Console.WriteLine($"{++delay} seconds have passed, retrying DB connection...");
       }
     } while (delay > 0);
