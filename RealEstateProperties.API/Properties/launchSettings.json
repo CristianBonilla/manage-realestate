@@ -5,7 +5,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "LOCALDB_PLATFORM": "true"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:7737"
@@ -15,7 +16,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "LOCALDB_PLATFORM": "true"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7075;http://localhost:7737"
@@ -25,7 +27,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "LOCALDB_PLATFORM": "true"
       }
     },
     "Container (Dockerfile)": {
@@ -35,7 +38,8 @@
       "environmentVariables": {
         "ASPNETCORE_URLS": "https://+:905;http://+:791",
         "ASPNETCORE_HTTPS_PORTS": "30901",
-        "ASPNETCORE_HTTP_PORTS": "30900"
+        "ASPNETCORE_HTTP_PORTS": "30900",
+        "LOCALDB_PLATFORM": "false"
       },
       "publishAllPorts": true,
       "httpPort": 30900,
