@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{FDBA162B-268B-406D-A7EE-7746A6273D88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstateProperties.API", "RealEstateProperties.API\RealEstateProperties.API.csproj", "{A609B54C-EB06-4EFE-8518-DD89B7905181}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BEAC20C4-8229-43C6-8B33-19F863AC64B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstateProperties.Tests", "RealEstateProperties.Tests\RealEstateProperties.Tests.csproj", "{6A9F439C-FEB4-4A00-B334-42AB6FE23620}"
@@ -38,16 +36,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{02EA
 		Scripts\1.3. realestate-properties-addeduniqueindexes-script.sql = Scripts\1.3. realestate-properties-addeduniqueindexes-script.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstateProperties.API", "RealEstateProperties.API\RealEstateProperties.API.csproj", "{3A3A9710-4C62-42CD-9BB9-1A5DB370C33B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A609B54C-EB06-4EFE-8518-DD89B7905181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A609B54C-EB06-4EFE-8518-DD89B7905181}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A609B54C-EB06-4EFE-8518-DD89B7905181}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A609B54C-EB06-4EFE-8518-DD89B7905181}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BEAC20C4-8229-43C6-8B33-19F863AC64B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BEAC20C4-8229-43C6-8B33-19F863AC64B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEAC20C4-8229-43C6-8B33-19F863AC64B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,13 +72,17 @@ Global
 		{CDF43769-D848-4A71-B876-3FA6E83C00C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF43769-D848-4A71-B876-3FA6E83C00C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF43769-D848-4A71-B876-3FA6E83C00C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A3A9710-4C62-42CD-9BB9-1A5DB370C33B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A3A9710-4C62-42CD-9BB9-1A5DB370C33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A3A9710-4C62-42CD-9BB9-1A5DB370C33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A3A9710-4C62-42CD-9BB9-1A5DB370C33B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A609B54C-EB06-4EFE-8518-DD89B7905181} = {FDBA162B-268B-406D-A7EE-7746A6273D88}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {031A4AFB-7C73-4168-95DE-9AC049744362}
+		{3A3A9710-4C62-42CD-9BB9-1A5DB370C33B} = {FDBA162B-268B-406D-A7EE-7746A6273D88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {34D7C2FA-93E4-4DB6-8AF5-CB879B62E9E6}
