@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RealEstateProperties.API.Utils;
+using RealEstateProperties.Contracts.Enums;
 using RealEstateProperties.Domain.Helpers;
 using RealEstateProperties.Infrastructure.Contexts.RealEstateProperties;
 
@@ -9,19 +10,16 @@ class DbInstaller : IInstaller
 {
   public void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
   {
-    string connectionString = GetConnectionString(configuration, ApiConfigKeys.IsLocalDbPlatform switch
-    {
-      true => ApiConfigKeys.LocalDbConnection,
-      _ => ApiConfigKeys.DefaultDbConnection
-    });
+    string connectionString = GetConnectionString(configuration);
     services.AddDbContextPool<RealEstatePropertiesContext>(options => options.UseSqlServer(connectionString));
   }
 
-  private static string GetConnectionString(IConfiguration configuration, string connectionStringKey)
+  private static string GetConnectionString(IConfiguration configuration)
   {
+    string connectionStringKey = ApiConfigKeys.GetConnectionKeyFromProcessType();
     string connectionString = configuration.GetConnectionString(connectionStringKey)
       ?? throw new InvalidOperationException($"Connection string \"{connectionStringKey}\" not established");
-    if (ApiConfigKeys.IsLocalDbPlatform)
+    if (ApiConfigKeys.ProcessType == ProcessTypes.Local)
       DirectoryConfigHelper.SetConnectionStringFullPathFromDataDirectory(ref connectionString);
 
     return connectionString;
