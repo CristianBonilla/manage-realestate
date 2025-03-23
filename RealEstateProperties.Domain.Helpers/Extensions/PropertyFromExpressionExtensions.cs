@@ -6,15 +6,12 @@ namespace RealEstateProperties.Domain.Helpers.Extensions;
 static class PropertyFromExpressionExtensions
 {
   public static PropertyInfo? GetProperty(this LambdaExpression expression)
-  {
-    PropertyInfo? property = null;
-    if (expression.Body is MemberExpression body)
-      property = (PropertyInfo)body.Member;
-    else if (expression.Body is UnaryExpression unary && unary.Operand is MemberExpression operand)
-      property = (PropertyInfo)operand.Member;
-
-    return property;
-  }
+    => expression.Body switch
+    {
+      MemberExpression body => (PropertyInfo)body.Member,
+      UnaryExpression unary when unary.Operand is MemberExpression operand => (PropertyInfo)operand.Member,
+      _ => null
+    };
 
   public static bool IsIncludedProperty(this IEnumerable<LambdaExpression> expressions, PropertyInfo property)
     => expressions.Any(expression => property.Equals(expression.GetProperty()));
