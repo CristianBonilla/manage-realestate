@@ -28,7 +28,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "PROCESS_TYPE": "local"
+        "PROCESS_TYPE": "iis-express"
       }
     },
     "Container (Dockerfile)": {

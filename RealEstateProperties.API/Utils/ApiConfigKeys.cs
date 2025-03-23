@@ -13,6 +13,7 @@ record struct ApiConfigKeys
   static readonly Dictionary<ProcessTypes, string> _processTypes = new()
   {
     { ProcessTypes.Local, LocalConnection },
+    { ProcessTypes.IISExpress, LocalConnection },
     { ProcessTypes.Docker, DockerConnection },
     { ProcessTypes.DockerCompose, DockerComposeConnection }
   };
@@ -24,6 +25,7 @@ record struct ApiConfigKeys
       string processTypeValue = Environment.GetEnvironmentVariable("PROCESS_TYPE") switch
       {
         null => nameof(ProcessTypes.Local),
+        string source when string.Equals(source, "iis-express", StringComparison.OrdinalIgnoreCase) => nameof(ProcessTypes.IISExpress),
         string source when string.Equals(source, "docker-compose", StringComparison.OrdinalIgnoreCase) => nameof(ProcessTypes.DockerCompose),
         string source => source
       };
