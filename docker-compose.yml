@@ -7,7 +7,7 @@ networks:
 
 services:
   realestate-properties-api:
-    image: ${DOCKER_REGISTRY-}realestatepropertiesapi
+    image: ${DOCKER_REGISTRY-}realestate-properties-api
     container_name: realestate-properties-API
     build:
       context: .
