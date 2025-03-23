@@ -13,7 +13,7 @@ class JwtInstaller : IInstaller
     services.Configure<JwtOptions>(jwtSection);
     JwtOptions jwtOptions = jwtSection.Get<JwtOptions>()!;
     services.AddSingleton(jwtOptions);
-    byte[] secretKey = JwtSigningKeyHelper.GetSecretKey(jwtOptions.Secret);
+    byte[] secretKey = JwtSigningKeyHelper.GetSecretKey(jwtOptions.Secret, 512);
     services.AddAuthentication(auth =>
     {
       auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
