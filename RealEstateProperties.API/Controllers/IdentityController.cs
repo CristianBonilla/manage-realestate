@@ -18,7 +18,7 @@ namespace RealEstateProperties.API.Controllers;
 [Produces("application/json")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ServiceErrorExceptionFilter]
-public class IdentityController(IMapper mapper, IAuthService authService, IAuthIdentity authIdentity) : Controller
+public class IdentityController(IMapper mapper, IAuthService authService, IAuthIdentity authIdentity) : ControllerBase
 {
   readonly IMapper _mapper = mapper;
   readonly IAuthService _authService = authService;
