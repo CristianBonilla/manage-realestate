@@ -3,7 +3,6 @@ namespace RealEstateProperties.Domain.Entities.Auth
   public class UserEntity
   {
     public Guid UserId { get; set; }
-    public required Guid RoleId { get; set; }
     public required string DocumentNumber { get; set; }
     public required string Mobile { get; set; }
     public required string Username { get; set; }
