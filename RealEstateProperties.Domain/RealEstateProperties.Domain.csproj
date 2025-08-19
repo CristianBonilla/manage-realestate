@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstateProperties.Contracts\RealEstateProperties.Contracts.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain.Entities\RealEstateProperties.Domain.Entities.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain.Helpers\RealEstateProperties.Domain.Helpers.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Infrastructure\RealEstateProperties.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

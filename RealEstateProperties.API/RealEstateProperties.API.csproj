@@ -18,4 +18,12 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstateProperties.Contracts\RealEstateProperties.Contracts.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain.Entities\RealEstateProperties.Domain.Entities.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain.Helpers\RealEstateProperties.Domain.Helpers.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain\RealEstateProperties.Domain.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Infrastructure\RealEstateProperties.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
