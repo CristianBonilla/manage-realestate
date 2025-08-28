@@ -1,3 +1,3 @@
-# Real Estate Properties
+# Manage Real Estate Properties
 
-Using .NET to create API to obtain detailed information about properties in the USA
+A REST API in .NET 9 to manage real estate properties with JWT auth
