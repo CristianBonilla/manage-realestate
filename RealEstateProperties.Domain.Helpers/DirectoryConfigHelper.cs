@@ -1,4 +1,6 @@
 using System.Reflection;
+using RealEstateProperties.Contracts.Enums;
+using RealEstateProperties.Domain.Helpers.Extensions;
 
 namespace RealEstateProperties.Domain.Helpers;
 
@@ -24,10 +26,10 @@ public class DirectoryConfigHelper
     }
   }
 
-  public static string GetDirectoryFilePathFromAssemblyName(string fileType)
+  public static string GetDirectoryFilePathFromAssemblyName(FileFormatTypes fileFormat)
   {
     AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
-    string path = Path.Combine(DirectoryPath, assemblyName.Name!, ".", fileType);
+    string path = Path.Combine(DirectoryPath, assemblyName.Name!, fileFormat.GetFormatType());
     if (!File.Exists(path))
     {
       using FileStream stream = new(path, FileMode.Create, FileAccess.Write);
