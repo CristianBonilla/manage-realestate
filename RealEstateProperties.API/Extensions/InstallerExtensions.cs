@@ -10,11 +10,10 @@ static class InstallerExtensions
     IConfiguration configuration,
     IWebHostEnvironment env)
   {
-    IInstaller[] installers = Assembly.GetExecutingAssembly().GetTypes()
+    IInstaller[] installers = [.. Assembly.GetExecutingAssembly().GetTypes()
       .Where(type => typeof(IInstaller).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
       .Select(Activator.CreateInstance)
-      .Cast<IInstaller>()
-      .ToArray();
+      .Cast<IInstaller>()];
     foreach (IInstaller installer in installers)
       installer.InstallServices(services, configuration, env);
   }
