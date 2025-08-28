@@ -1,14 +1,13 @@
 using RealEstateProperties.API.Mappers;
 
-namespace RealEstateProperties.API.Installers
+namespace RealEstateProperties.API.Installers;
+
+class MapperInstaller : IInstaller
 {
-  class MapperInstaller : IInstaller
+  public void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
   {
-    public void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
-    {
-      services.AddAutoMapper(
-        typeof(AuthProfile),
-        typeof(RealEstatePropertiesProfile));
-    }
+    services.AddAutoMapper(
+      typeof(AuthProfile),
+      typeof(RealEstatePropertiesProfile));
   }
 }

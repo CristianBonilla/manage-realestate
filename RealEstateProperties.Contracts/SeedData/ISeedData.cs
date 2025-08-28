@@ -1,8 +1,7 @@
-namespace RealEstateProperties.Contracts.SeedData
+namespace RealEstateProperties.Contracts.SeedData;
+
+public interface ISeedData
 {
-  public interface ISeedData
-  {
-    SeedAuthData Auth { get; }
-    SeedRealEstatePropertiesData RealEstateProperties { get; }
-  }
+  SeedAuthData Auth { get; }
+  SeedRealEstatePropertiesData RealEstateProperties { get; }
 }
