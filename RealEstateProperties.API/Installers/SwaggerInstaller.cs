@@ -1,7 +1,7 @@
 using Microsoft.OpenApi.Models;
 using RealEstateProperties.API.Filters;
 using RealEstateProperties.API.Options;
-using RealEstateProperties.Domain.Helpers;
+using RealEstateProperties.API.Utils;
 
 namespace RealEstateProperties.API.Installers;
 
