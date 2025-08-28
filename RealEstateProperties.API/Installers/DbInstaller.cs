@@ -8,7 +8,9 @@ class DbInstaller : IInstaller
 {
   public void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
   {
-    string? connectionString = configuration.GetConnectionString(ApiConfigKeys.RealEstatePropertiesConnection) ?? throw new InvalidOperationException($"Connection string '{ApiConfigKeys.RealEstatePropertiesConnection}' not established");
+    string connectionStringName = ApiConfigKeys.RealEstatePropertiesConnection;
+    string connectionString = configuration.GetConnectionString(connectionStringName)
+      ?? throw new InvalidOperationException($"Connection string \"{connectionStringName}\" not established");
     services.AddDbContextPool<RealEstatePropertiesContext>(options => options.UseSqlServer(connectionString));
   }
 }
