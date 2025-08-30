@@ -33,7 +33,7 @@ class Startup(IConfiguration configuration, IWebHostEnvironment env)
       if (swagger is not null)
       {
         app.UseSwagger(options => options.RouteTemplate = swagger.JsonRoute);
-        app.UseSwaggerUI(options => options.SwaggerEndpoint(swagger.UIEndpoint, swagger.Description));
+        app.UseSwaggerUI(options => options.SwaggerEndpoint(swagger.UIEndpoint, swagger.Info.Description));
       }
     }
     app.UseCors(ApiConfigKeys.AllowOrigins);
