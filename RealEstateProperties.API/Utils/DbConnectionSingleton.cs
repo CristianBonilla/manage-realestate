@@ -10,7 +10,6 @@ class DbConnectionSingleton
 {
   static Lazy<DbConnectionSingleton>? _instance;
   readonly IHost _host;
-  int _delay;
   
   private DbConnectionSingleton(IHost host) => _host = host;
 
@@ -23,42 +22,45 @@ class DbConnectionSingleton
 
   public async Task Connect<TContext>(DbConnectionTypes connectionType) where TContext : DbContext
   {
-    AsyncServiceScope scope = _host.Services.CreateAsyncScope();
-    TContext context = scope.ServiceProvider.GetRequiredService<TContext>();
-    DatabaseFacade database = context.Database;
-    try
+    int delay = 0;
+    do
     {
-      await using (scope.ConfigureAwait(false))
+      AsyncServiceScope scope = _host.Services.CreateAsyncScope();
+      TContext context = scope.ServiceProvider.GetRequiredService<TContext>();
+      DatabaseFacade database = context.Database;
+      try
       {
-        await (connectionType switch
+        await using (scope.ConfigureAwait(false))
         {
-          DbConnectionTypes.OpenConnection => database.OpenConnectionAsync(),
-          DbConnectionTypes.EnsureCreated => database.EnsureCreatedAsync(),
-          DbConnectionTypes.Migration => database.MigrateAsync(),
-          _ => throw new ArgumentOutOfRangeException(nameof(connectionType), $"Not expected DB connection type: {connectionType}")
-        });
-        _delay = 0;
-        Console.WriteLine($"{typeof(TContext).Name} DB connection started successfully.");
+          await (connectionType switch
+          {
+            DbConnectionTypes.OpenConnection => database.OpenConnectionAsync(),
+            DbConnectionTypes.EnsureCreated => database.EnsureCreatedAsync(),
+            DbConnectionTypes.Migration => database.MigrateAsync(),
+            _ => throw new ArgumentOutOfRangeException(nameof(connectionType), $"Not expected DB connection type: {connectionType}")
+          });
+          delay = 0;
+          Console.WriteLine($"{typeof(TContext).Name} DB connection started successfully.");
+        }
       }
-    }
-    catch (InvalidOperationException)
-    {
-      Console.WriteLine("Unhandled exception while DB connection.");
+      catch (InvalidOperationException)
+      {
+        Console.WriteLine("Unhandled exception while DB connection.");
 
-      throw;
-    }
-    catch (DbException exception) when (exception.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.HostNotFound)
-    {
-      Console.WriteLine("Unidentified or nonexistent DB connection.");
-      Console.WriteLine(exception.Message);
+        throw;
+      }
+      catch (DbException exception) when (exception.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.HostNotFound)
+      {
+        Console.WriteLine("Unidentified or nonexistent DB connection.");
+        Console.WriteLine(exception.Message);
 
-      throw socketException;
-    }
-    catch (DbException exception) when (exception.InnerException is null)
-    {
-      await Task.Delay(TimeSpan.FromSeconds(1));
-      Console.WriteLine($"{++_delay} seconds have passed, retrying DB connection...");
-      await Connect<TContext>(connectionType);
-    }
+        throw socketException;
+      }
+      catch (DbException exception) when (exception.InnerException is null)
+      {
+        await Task.Delay(TimeSpan.FromSeconds(1));
+        Console.WriteLine($"{++delay} seconds have passed, retrying DB connection...");
+      }
+    } while (delay > 0);
   }
 }
