@@ -1,6 +1,6 @@
 namespace RealEstateProperties.Contracts.Enums;
 
-public enum DbStart
+public enum DbConnectionTypes : ushort
 {
   OpenConnection = 1,
   EnsureCreated = 2,
