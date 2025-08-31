@@ -36,6 +36,7 @@ class DbConnectionSingleton
           {
             DbConnectionTypes.OpenConnection => database.OpenConnectionAsync(),
             DbConnectionTypes.EnsureCreated => database.EnsureCreatedAsync(),
+            DbConnectionTypes.EnsureDeleted => database.EnsureDeletedAsync(),
             DbConnectionTypes.Migration => database.MigrateAsync(),
             _ => throw new ArgumentOutOfRangeException(nameof(connectionType), $"Not expected DB connection type: {connectionType}")
           });
