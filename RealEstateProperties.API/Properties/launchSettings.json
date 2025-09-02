@@ -9,7 +9,7 @@
         "PROCESS_TYPE": "local"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:7737"
+      "applicationUrl": "http://localhost:8737"
     },
     "RealEstateProperties.https": {
       "commandName": "Project",
@@ -20,7 +20,7 @@
         "PROCESS_TYPE": "local"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7075;http://localhost:7737"
+      "applicationUrl": "https://localhost:8075;http://localhost:8737"
     },
     "IIS Express": {
       "commandName": "IISExpress",
