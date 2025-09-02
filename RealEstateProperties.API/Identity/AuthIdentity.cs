@@ -50,7 +50,7 @@ class AuthIdentity(
   private AuthResult GenerateAuthForUser(UserEntity user)
   {
     JwtSecurityTokenHandler tokenHandler = new();
-    byte[] secretKey = JwtSigningKeyHelper.GetSecretKey(_jwtOptions.Secret);
+    byte[] secretKey = JwtSigningKeyHelper.GetSecretKey(_jwtOptions.Secret, 512);
     SecurityTokenDescriptor tokenDescriptor = new()
     {
       Subject = new([
