@@ -6,10 +6,10 @@ static class EvaluateTypesExtensions
 
   public static bool IsUserDefinedObject(this Type propertyType)
   {
-    string propertyAssemblyName = propertyType.Assembly.FullName!;
+    string? propertyAssemblyName = propertyType.Assembly.FullName;
     bool isClass = propertyType.IsClass;
     bool isStruct = propertyType.IsValueType && !propertyType.IsPrimitive && !propertyType.IsEnum;
 
-    return (isClass || isStruct) && propertyAssemblyName.StartsWith(RealEstateProperties);
+    return (isClass || isStruct) && (propertyAssemblyName?.StartsWith(RealEstateProperties) ?? false);
   }
 }
