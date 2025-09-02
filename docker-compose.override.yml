@@ -4,12 +4,13 @@ services:
   realestate-properties-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:905;http://+:791
-      - ASPNETCORE_HTTPS_PORTS=30901
-      - ASPNETCORE_HTTP_PORTS=30900
+      - ASPNETCORE_URLS=https://+:922;http://+:881
+      - ASPNETCORE_HTTPS_PORTS=30903
+      - ASPNETCORE_HTTP_PORTS=30902
+      - PROCESS_TYPE=docker-compose
     ports:
-      - "30901:905"
-      - "30900:791"
+      - "30903:922"
+      - "30902:881"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
