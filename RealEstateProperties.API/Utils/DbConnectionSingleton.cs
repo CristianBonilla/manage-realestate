@@ -71,4 +71,13 @@ class DbConnectionSingleton
       }
     } while (delay > 0);
   }
+
+  public async Task<bool> TestConnection<TContext>() where TContext : DbContext
+  {
+    AsyncServiceScope scope = _host.Services.CreateAsyncScope();
+    TContext context = scope.ServiceProvider.GetRequiredService<TContext>();
+    DatabaseFacade database = context.Database;
+
+    return await database.CanConnectAsync();
+  }
 }
