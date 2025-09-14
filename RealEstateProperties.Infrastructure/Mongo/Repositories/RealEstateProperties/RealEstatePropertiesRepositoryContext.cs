@@ -1,0 +1,6 @@
+using RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties;
+using RealEstateProperties.Infrastructure.Mongo.Repositories.RealEstateProperties.Interfaces;
+
+namespace RealEstateProperties.Infrastructure.Mongo.Repositories.RealEstateProperties;
+
+public class RealEstatePropertiesRepositoryContext(RealEstatePropertiesContext context) : RepositoryContext<RealEstatePropertiesContext>(context), IRealEstatePropertiesRepositoryContext { }
