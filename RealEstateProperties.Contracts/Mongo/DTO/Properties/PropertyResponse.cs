@@ -1,11 +1,9 @@
-using MongoDB.Bson;
-
 namespace RealEstateProperties.Contracts.Mongo.DTO.Properties;
 
 public class PropertyResponse
 {
-  public ObjectId PropertyId { get; set; }
-  public required ObjectId OwnerId { get; set; }
+  public string PropertyId { get; set; } = null!;
+  public required string OwnerId { get; set; }
   public required string Name { get; set; }
   public required string Address { get; set; }
   public required decimal Price { get; set; }

@@ -14,6 +14,7 @@ class AuthProfile : Profile
       .ForMember(member => member.Salt, options => options.Ignore())
       .ForMember(member => member.Created, options => options.Ignore());
     CreateMap<UserEntity, UserResponse>()
+      .ForMember(member => member.UserId, options => options.MapFrom(user => user.UserId.ToString()))
       .ReverseMap()
       .ForMember(member => member.Password, options => options.Ignore())
       .ForMember(member => member.Salt, options => options.Ignore());

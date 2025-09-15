@@ -1,10 +1,8 @@
-using MongoDB.Bson;
-
 namespace RealEstateProperties.Contracts.Mongo.DTO.User;
 
 public class UserResponse
 {
-  public ObjectId UserId { get; set; }
+  public string UserId { get; set; } = null!;
   public required string DocumentNumber { get; set; }
   public required string Mobile { get; set; }
   public required string Username { get; set; }
