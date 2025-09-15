@@ -1,7 +1,7 @@
 using AutoMapper;
-using RealEstateProperties.Contracts.DTO.Owner;
-using RealEstateProperties.Contracts.DTO.Properties;
-using RealEstateProperties.Domain.Entities;
+using RealEstateProperties.Contracts.Mongo.DTO.Owner;
+using RealEstateProperties.Contracts.Mongo.DTO.Properties;
+using RealEstateProperties.Domain.Entities.Mongo;
 
 namespace RealEstateProperties.API.Mappers.Converters;
 

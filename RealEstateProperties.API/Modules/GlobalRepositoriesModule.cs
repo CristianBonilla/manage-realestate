@@ -1,8 +1,8 @@
 using Autofac;
-using RealEstateProperties.Contracts.Repository;
-using RealEstateProperties.Infrastructure.Repositories;
-using RealEstateProperties.Infrastructure.Repositories.RealEstateProperties;
-using RealEstateProperties.Infrastructure.Repositories.RealEstateProperties.Interfaces;
+using RealEstateProperties.Contracts.Mongo.Repository;
+using RealEstateProperties.Infrastructure.Mongo.Repositories;
+using RealEstateProperties.Infrastructure.Mongo.Repositories.RealEstateProperties;
+using RealEstateProperties.Infrastructure.Mongo.Repositories.RealEstateProperties.Interfaces;
 
 namespace RealEstateProperties.API.Modules;
 

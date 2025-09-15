@@ -1,5 +1,5 @@
-using RealEstateProperties.Contracts.DTO.User;
 using RealEstateProperties.Contracts.Mongo.DTO.Auth;
+using RealEstateProperties.Contracts.Mongo.DTO.User;
 
 namespace RealEstateProperties.Contracts.Mongo.Identity;
 

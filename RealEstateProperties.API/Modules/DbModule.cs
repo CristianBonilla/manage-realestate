@@ -1,6 +1,6 @@
 using Autofac;
-using RealEstateProperties.Contracts.SeedData;
-using RealEstateProperties.Domain.SeedWork;
+using RealEstateProperties.Contracts.Mongo.SeedData;
+using RealEstateProperties.Domain.Mongo.SeedWork;
 
 namespace RealEstateProperties.API.Modules;
 

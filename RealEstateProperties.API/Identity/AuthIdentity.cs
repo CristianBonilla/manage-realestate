@@ -4,14 +4,14 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
 using Newtonsoft.Json;
+using RealEstateProperties.Contracts.Mongo.Identity;
+using RealEstateProperties.Contracts.Mongo.Services;
 using RealEstateProperties.API.Options;
-using RealEstateProperties.Contracts.DTO.Auth;
-using RealEstateProperties.Contracts.DTO.User;
+using RealEstateProperties.Contracts.Mongo.DTO.Auth;
 using RealEstateProperties.Contracts.Exceptions;
-using RealEstateProperties.Contracts.Identity;
-using RealEstateProperties.Contracts.Services;
-using RealEstateProperties.Domain.Entities.Auth;
+using RealEstateProperties.Domain.Entities.Mongo.Auth;
 using RealEstateProperties.Domain.Helpers;
+using RealEstateProperties.Contracts.Mongo.DTO.User;
 
 namespace RealEstateProperties.API.Identity;
 

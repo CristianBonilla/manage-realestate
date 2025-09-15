@@ -1,10 +1,10 @@
 using Autofac;
-using RealEstateProperties.Infrastructure.Repositories.Auth.Interfaces;
-using RealEstateProperties.Infrastructure.Repositories.Auth;
-using RealEstateProperties.Contracts.Identity;
 using RealEstateProperties.API.Identity;
-using RealEstateProperties.Contracts.Services;
-using RealEstateProperties.Domain.Services;
+using RealEstateProperties.Contracts.Mongo.Identity;
+using RealEstateProperties.Contracts.Mongo.Services;
+using RealEstateProperties.Domain.Mongo.Services;
+using RealEstateProperties.Infrastructure.Mongo.Repositories.Auth;
+using RealEstateProperties.Infrastructure.Mongo.Repositories.Auth.Interfaces;
 
 namespace RealEstateProperties.API.Modules;
 
