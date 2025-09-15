@@ -3,11 +3,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using RealEstateProperties.API.Filters;
 using RealEstateProperties.API.Utils;
-using RealEstateProperties.Contracts.DTO.Properties;
-using RealEstateProperties.Contracts.Services;
-using RealEstateProperties.Domain.Entities;
+using RealEstateProperties.Contracts.Mongo.DTO.Properties;
+using RealEstateProperties.Contracts.Mongo.Services;
+using RealEstateProperties.Domain.Entities.Mongo;
 
 namespace RealEstateProperties.API.Controllers;
 
@@ -38,11 +39,13 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> UpdateProperty(Guid propertyId, [FromBody] PropertyRequest propertyRequest)
+  public async Task<IActionResult> UpdateProperty(string propertyId, [FromBody] PropertyRequest propertyRequest)
   {
-    PropertyEntity property = await _propertiesService.FindPropertyById(propertyId);
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    PropertyEntity property = await _propertiesService.FindPropertyById(propertyIdValue);
     PropertyEntity updatedProperty = _mapper.Map(propertyRequest, property);
-    PropertyResponse propertyResponse = await UpdateProperty(propertyId, updatedProperty);
+    PropertyResponse propertyResponse = await UpdateProperty(propertyIdValue, updatedProperty);
 
     return Ok(propertyResponse);
   }
@@ -51,9 +54,11 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> DeleteProperty(Guid propertyId)
+  public async Task<IActionResult> DeleteProperty(string propertyId)
   {
-    PropertyEntity property = await _propertiesService.DeleteProperty(propertyId);
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    PropertyEntity property = await _propertiesService.DeleteProperty(propertyIdValue);
 
     return Ok(_mapper.Map<PropertyResponse>(property));
   }
@@ -74,11 +79,13 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> ChangePropertyPrice(Guid propertyId, [FromQuery] decimal price)
+  public async Task<IActionResult> ChangePropertyPrice(string propertyId, [FromQuery] decimal price)
   {
-    PropertyEntity property = await _propertiesService.FindPropertyById(propertyId);
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    PropertyEntity property = await _propertiesService.FindPropertyById(propertyIdValue);
     property.Price = price;
-    PropertyResponse propertyResponse = await UpdateProperty(propertyId, property);
+    PropertyResponse propertyResponse = await UpdateProperty(propertyIdValue, property);
 
     return Ok(propertyResponse);
   }
@@ -88,12 +95,14 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> AddPropertyImage(Guid propertyId, IFormFile image)
+  public async Task<IActionResult> AddPropertyImage(string propertyId, IFormFile image)
   {
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
     if (image.Length <= 0)
       return StatusCode(StatusCodes.Status400BadRequest, "There is no property image to process");
     byte[] imageBytes = await ImageStreamUtils.GetImageBytes(image);
-    PropertyImageEntity propertyImage = await _propertiesService.AddPropertyImage(propertyId, imageBytes, image.FileName);
+    PropertyImageEntity propertyImage = await _propertiesService.AddPropertyImage(propertyIdValue, imageBytes, image.FileName);
     PropertyImageResponse propertyImageResponse = _mapper.Map<PropertyImageResponse>(propertyImage);
 
     return CreatedAtAction(nameof(AddPropertyImage), propertyImageResponse);
@@ -104,12 +113,16 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> UpdatePropertyImage([FromQuery] Guid propertyId, [FromQuery] Guid propertyImageId, IFormFile image)
+  public async Task<IActionResult> UpdatePropertyImage([FromQuery] string propertyId, [FromQuery] string propertyImageId, IFormFile image)
   {
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    if (!ObjectId.TryParse(propertyImageId, out ObjectId propertyImageIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyImageId} to search for the property image");
     if (image.Length <= 0)
       return StatusCode(StatusCodes.Status400BadRequest, "There is no property image to process");
     byte[] imageBytes = await ImageStreamUtils.GetImageBytes(image);
-    PropertyImageEntity propertyImage = await _propertiesService.UpdatePropertyImage(propertyId, propertyImageId, imageBytes, image.FileName);
+    PropertyImageEntity propertyImage = await _propertiesService.UpdatePropertyImage(propertyIdValue, propertyImageIdValue, imageBytes, image.FileName);
     PropertyImageResponse propertyImageResponse = _mapper.Map<PropertyImageResponse>(propertyImage);
 
     return Ok(propertyImageResponse);
@@ -119,9 +132,13 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyImageResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> DeletePropertyImage([FromQuery] Guid propertyId, [FromQuery] Guid propertyImageId)
+  public async Task<IActionResult> DeletePropertyImage([FromQuery] string propertyId, [FromQuery] string propertyImageId)
   {
-    PropertyImageEntity propertyImage = await _propertiesService.DeletePropertyImage(propertyId, propertyImageId);
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    if (!ObjectId.TryParse(propertyImageId, out ObjectId propertyImageIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyImageId} to search for the property image");
+    PropertyImageEntity propertyImage = await _propertiesService.DeletePropertyImage(propertyIdValue, propertyImageIdValue);
     PropertyImageResponse propertyImageResponse = _mapper.Map<PropertyImageResponse>(propertyImage);
 
     return Ok(propertyImageResponse);
@@ -131,9 +148,11 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PropertyImageResponse>))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public IActionResult GetPropertyImages(Guid propertyId)
+  public IActionResult GetPropertyImages(string propertyId)
   {
-    var (_, propertyImages) = _propertiesService.GetPropertyImages(propertyId);
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    var (_, propertyImages) = _propertiesService.GetPropertyImages(propertyIdValue);
 
     return Ok(propertyImages.Select(_mapper.Map<PropertyImageResponse>));
   }
@@ -143,9 +162,11 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> GetPropertyImagesFiles(Guid propertyId)
+  public async Task<IActionResult> GetPropertyImagesFiles(string propertyId)
   {
-    var (propertyName, propertyImages) = _propertiesService.GetPropertyImages(propertyId);
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    var (propertyName, propertyImages) = _propertiesService.GetPropertyImages(propertyIdValue);
     if (await ImageStreamUtils.GetImagesBytes(propertyName, propertyImages) is var (imageBytes, contentType, imageName))
       return File(imageBytes, contentType, imageName);
 
@@ -169,16 +190,18 @@ public class PropertiesController(IMapper mapper, IPropertiesService propertiesS
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PropertyTraceResponse>))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> GetPropertyTraces(Guid propertyId)
+  public async Task<IActionResult> GetPropertyTraces(string propertyId)
   {
-    var propertyTraces = await _propertiesService.GetPropertyTraces(propertyId)
+    if (!ObjectId.TryParse(propertyId, out ObjectId propertyIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {propertyId} to search for the property");
+    var propertyTraces = await _propertiesService.GetPropertyTraces(propertyIdValue)
       .Select(_mapper.Map<PropertyTraceResponse>)
       .ToArrayAsync();
 
     return Ok(propertyTraces);
   }
 
-  private async Task<PropertyResponse> UpdateProperty(Guid propertyId, PropertyEntity property)
+  private async Task<PropertyResponse> UpdateProperty(ObjectId propertyId, PropertyEntity property)
   {
     PropertyEntity updatedProperty = await _propertiesService.UpdateProperty(propertyId, property);
     PropertyResponse propertyResponse = _mapper.Map<PropertyResponse>(updatedProperty);

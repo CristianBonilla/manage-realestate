@@ -3,11 +3,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using RealEstateProperties.API.Filters;
 using RealEstateProperties.API.Utils;
-using RealEstateProperties.Contracts.DTO.Owner;
-using RealEstateProperties.Contracts.Services;
-using RealEstateProperties.Domain.Entities;
+using RealEstateProperties.Contracts.Mongo.DTO.Owner;
+using RealEstateProperties.Contracts.Mongo.Services;
+using RealEstateProperties.Domain.Entities.Mongo;
 
 namespace RealEstateProperties.API.Controllers;
 
@@ -38,9 +39,11 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OwnerResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> DeleteOwner(Guid ownerId)
+  public async Task<IActionResult> DeleteOwner(string ownerId)
   {
-    OwnerEntity owner = await _ownerService.DeleteOwner(ownerId);
+    if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
+      return BadRequest($"Invalid identifier {ownerId} to search for the owner");
+    OwnerEntity owner = await _ownerService.DeleteOwner(ownerIdValue);
 
     return Ok(_mapper.Map<OwnerResponse>(owner));
   }
@@ -59,9 +62,11 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OwnerResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> FindOwnerById(Guid ownerId)
+  public async Task<IActionResult> FindOwnerById(string ownerId)
   {
-    OwnerEntity owner = await _ownerService.FindOwnerById(ownerId);
+    if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
+      return BadRequest($"Invalid identifier {ownerId} to search for the owner");
+    OwnerEntity owner = await _ownerService.FindOwnerById(ownerIdValue);
 
     return Ok(_mapper.Map<OwnerResponse>(owner));
   }
@@ -71,12 +76,14 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> AddOrUpdateOwnerPhoto(Guid ownerId, IFormFile photo)
+  public async Task<IActionResult> AddOrUpdateOwnerPhoto(string ownerId, IFormFile photo)
   {
+    if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {ownerId} to search for the owner");
     if (photo.Length <= 0)
       return StatusCode(StatusCodes.Status400BadRequest, "There is no owner photo to process");
     byte[] photoBytes = await ImageStreamUtils.GetImageBytes(photo);
-    OwnerEntity owner = await _ownerService.AddOrUpdateOwnerPhoto(ownerId, photoBytes, photo.FileName);
+    OwnerEntity owner = await _ownerService.AddOrUpdateOwnerPhoto(ownerIdValue, photoBytes, photo.FileName);
     OwnerResponse ownerResponse = _mapper.Map<OwnerResponse>(owner);
 
     return CreatedAtAction(nameof(AddOrUpdateOwnerPhoto), ownerResponse);
@@ -87,9 +94,11 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> GetOwnerPhotoFile(Guid ownerId)
+  public async Task<IActionResult> GetOwnerPhotoFile(string ownerId)
   {
-    OwnerEntity owner = await _ownerService.FindOwnerById(ownerId);
+    if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {ownerId} to search for the owner");
+    OwnerEntity owner = await _ownerService.FindOwnerById(ownerIdValue);
     if (owner.Photo is null)
       return StatusCode(StatusCodes.Status400BadRequest, "There is no owner photo to process");
 

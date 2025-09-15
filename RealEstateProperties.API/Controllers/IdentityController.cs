@@ -3,12 +3,13 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using RealEstateProperties.API.Filters;
-using RealEstateProperties.Contracts.DTO.Auth;
-using RealEstateProperties.Contracts.DTO.User;
-using RealEstateProperties.Contracts.Identity;
-using RealEstateProperties.Contracts.Services;
-using RealEstateProperties.Domain.Entities.Auth;
+using RealEstateProperties.Contracts.Mongo.DTO.Auth;
+using RealEstateProperties.Contracts.Mongo.DTO.User;
+using RealEstateProperties.Contracts.Mongo.Identity;
+using RealEstateProperties.Contracts.Mongo.Services;
+using RealEstateProperties.Domain.Entities.Mongo.Auth;
 
 namespace RealEstateProperties.API.Controllers;
 
@@ -58,18 +59,20 @@ public class IdentityController(IMapper mapper, IAuthService authService, IAuthI
       yield return _mapper.Map<UserResponse>(user);
   }
 
-  [HttpGet("{userId:guid}")]
+  [HttpGet("{userId}")]
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> FindUserById(Guid userId)
+  public async Task<IActionResult> FindUserById(string userId)
   {
-    UserEntity user = await _authService.FindUserById(userId);
+    if (!ObjectId.TryParse(userId, out ObjectId userIdValue))
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {userId} to search for the user");
+    UserEntity user = await _authService.FindUserById(userIdValue);
 
     return Ok(_mapper.Map<UserResponse>(user));
   }
 
-  [HttpGet("{usernameOrEmail}")]
+  [HttpGet("search/{usernameOrEmail}")]
   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponse))]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]

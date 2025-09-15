@@ -1,5 +1,5 @@
+using RealEstateProperties.Domain.Entities.Mongo;
 using System.IO.Compression;
-using RealEstateProperties.Domain.Entities;
 
 using ImageInfo = (byte[] imageBytes, string contentType, string imageName);
 
