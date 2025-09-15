@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RealEstateProperties.API.Utils;
 using RealEstateProperties.Contracts.Enums;
 using RealEstateProperties.Domain.Helpers;
-using RealEstateProperties.Infrastructure.Contexts.RealEstateProperties;
+using RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties;
 
 namespace RealEstateProperties.API.Installers;
 
@@ -11,7 +11,10 @@ class DbInstaller : IInstaller
   public void InstallServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
   {
     string connectionString = GetConnectionString(configuration);
-    services.AddDbContextPool<RealEstatePropertiesContext>(options => options.UseSqlServer(connectionString));
+    services.AddMongoDbContext<RealEstatePropertiesContext>(options =>
+    {
+      options.ConnectionString = connectionString;
+    });
   }
 
   private static string GetConnectionString(IConfiguration configuration)

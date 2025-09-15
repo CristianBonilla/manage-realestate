@@ -9,19 +9,19 @@ public class SeedData(IRealEstatePropertiesRepositoryContext context) : ISeedDat
 {
   public async Task LoadAsync()
   {
-    await LoadData(AuthCollection.Users.GetAll());
-    await LoadData(RealEstatePropertiesCollection.Owners.GetAll());
-    await LoadData(RealEstatePropertiesCollection.Properties.GetAll());
-    await LoadData(RealEstatePropertiesCollection.PropertyImages.GetAll());
-    await LoadData(RealEstatePropertiesCollection.PropertyTraces.GetAll());
+    LoadData(AuthCollection.Users.GetAll());
+    LoadData(RealEstatePropertiesCollection.Owners.GetAll());
+    LoadData(RealEstatePropertiesCollection.Properties.GetAll());
+    LoadData(RealEstatePropertiesCollection.PropertyImages.GetAll());
+    LoadData(RealEstatePropertiesCollection.PropertyTraces.GetAll());
 
     await context.SaveAsync();
   }
 
-  private async Task LoadData<TEntity>(IEnumerable<TEntity> source) where TEntity : class
+  private void LoadData<TEntity>(IEnumerable<TEntity> source) where TEntity : class
   {
     var entities = context.Set<TEntity>();
-    if (await entities.AnyAsync())
+    if (entities.Any())
       return;
     entities.AddRange(source);
   }
