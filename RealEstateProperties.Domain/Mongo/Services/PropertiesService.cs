@@ -184,7 +184,7 @@ public class PropertiesService(
 
   private PropertyEntity GetProperty(ObjectId propertyId)
   {
-    PropertyEntity property = _propertyRepository.Find(propertyId)
+    PropertyEntity property = _propertyRepository.Find(property => property.PropertyId == propertyId)
       ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"Property not found with property identifier \"{propertyId}\"");
 
     return property;

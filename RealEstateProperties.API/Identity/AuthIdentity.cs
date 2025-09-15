@@ -28,7 +28,7 @@ class AuthIdentity(
   {
     bool existingUser = await UserExists(userRegisterRequest);
     if (existingUser)
-      throw new ServiceErrorException(HttpStatusCode.Unauthorized, $"User with provided document Number or username already exists");
+      throw new ServiceErrorException(HttpStatusCode.Unauthorized, $"User with provided document number or username already exists");
     UserEntity user = _mapper.Map<UserEntity>(userRegisterRequest);
     UserEntity addedUser = await _authService.AddUser(user);
 

@@ -40,7 +40,7 @@ public class AuthService(IRealEstatePropertiesRepositoryContext context, IUserRe
 
   public Task<UserEntity> FindUserById(ObjectId userId)
   {
-    UserEntity user = _userRepository.Find(userId)
+    UserEntity user = _userRepository.Find(user => user.UserId == userId)
       ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"User not found with user identifier \"{userId}\"");
 
     return Task.FromResult(user);

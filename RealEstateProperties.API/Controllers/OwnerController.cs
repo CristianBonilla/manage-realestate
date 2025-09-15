@@ -42,7 +42,7 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
   public async Task<IActionResult> DeleteOwner(string ownerId)
   {
     if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
-      return BadRequest($"Invalid identifier {ownerId} to search for the owner");
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {ownerId} to search for the owner");
     OwnerEntity owner = await _ownerService.DeleteOwner(ownerIdValue);
 
     return Ok(_mapper.Map<OwnerResponse>(owner));
@@ -65,7 +65,7 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
   public async Task<IActionResult> FindOwnerById(string ownerId)
   {
     if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
-      return BadRequest($"Invalid identifier {ownerId} to search for the owner");
+      return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {ownerId} to search for the owner");
     OwnerEntity owner = await _ownerService.FindOwnerById(ownerIdValue);
 
     return Ok(_mapper.Map<OwnerResponse>(owner));

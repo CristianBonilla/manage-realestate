@@ -52,7 +52,7 @@ public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwner
 
   private OwnerEntity GetOwner(ObjectId ownerId)
   {
-    OwnerEntity owner = _ownerRepository.Find(ownerId)
+    OwnerEntity owner = _ownerRepository.Find(owner => owner.OwnerId == ownerId)
       ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"Owner not found with owner identifier \"{ownerId}\"");
 
     return owner;
