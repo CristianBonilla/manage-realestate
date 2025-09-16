@@ -10,5 +10,6 @@ public class UserResponse
   public required string Firstname { get; set; }
   public required string Lastname { get; set; }
   public bool IsActive { get; set; }
-  public DateTimeOffset Created { get; set; }
+  public DateTimeOffset CreatedAt { get; set; }
+  public DateTimeOffset UpdatedAt { get; set; }
 }

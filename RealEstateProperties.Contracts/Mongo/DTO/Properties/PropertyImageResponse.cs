@@ -6,5 +6,6 @@ public class PropertyImageResponse
   public required string PropertyId { get; set; }
   public required bool Enabled { get; set; }
   public required string ImageName { get; set; }
-  public DateTimeOffset Created { get; set; }
+  public DateTimeOffset CreatedAt { get; set; }
+  public DateTimeOffset UpdatedAt { get; set; }
 }

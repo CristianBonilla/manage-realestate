@@ -7,5 +7,6 @@ public class OwnerResponse
   public required string Address { get; set; }
   public string? PhotoName { get; set; }
   public required DateTimeOffset Birthday { get; set; }
-  public DateTimeOffset Created { get; set; }
+  public DateTimeOffset CreatedAt { get; set; }
+  public DateTimeOffset UpdatedAt { get; set; }
 }

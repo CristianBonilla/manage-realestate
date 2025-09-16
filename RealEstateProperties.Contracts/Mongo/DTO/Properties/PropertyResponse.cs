@@ -9,6 +9,7 @@ public class PropertyResponse
   public required decimal Price { get; set; }
   public int CodeInternal { get; set; }
   public required int Year { get; set; }
-  public DateTimeOffset Created { get; set; }
+  public DateTimeOffset CreatedAt { get; set; }
+  public DateTimeOffset UpdatedAt { get; set; }
   public required IEnumerable<PropertyTraceResponse?> PropertyTraces { get; set; }
 }
