@@ -71,7 +71,7 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
   {
     TEntity? found = _entitySet.Find(keyValues);
 
-    return found is not null ? WithNavigations(navigations).SingleOrDefault(entity => entity == found) : null;
+    return found is not null ? WithNavigations(navigations).AsEnumerable().SingleOrDefault(entity => entity == found) : null;
   }
 
   public TEntity? Find(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] navigations) => WithNavigations(navigations).FirstOrDefault(predicate);
