@@ -1,4 +1,4 @@
-using RealEstateProperties.Contracts.Mongo.Repository;
+using RealEstateProperties.Contracts.Repository;
 using RealEstateProperties.Domain.Entities.Mongo;
 using RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties;
 
