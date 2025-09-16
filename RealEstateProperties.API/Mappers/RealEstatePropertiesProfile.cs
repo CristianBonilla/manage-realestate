@@ -14,26 +14,37 @@ class RealEstatePropertiesProfile : Profile
       .ForMember(member => member.OwnerId, options => options.Ignore())
       .ForMember(member => member.Photo, options => options.Ignore())
       .ForMember(member => member.PhotoName, options => options.Ignore())
-      .ForMember(member => member.Created, options => options.Ignore());
+      .ForMember(member => member.CreatedAt, options => options.Ignore())
+      .ForMember(member => member.UpdatedAt, options => options.Ignore())
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<OwnerEntity, OwnerResponse>()
-      .ForMember(member => member.OwnerId, options => options.MapFrom(owner => owner.OwnerId.ToString()));
+      .ForMember(member => member.OwnerId, options => options.MapFrom(owner => owner.OwnerId.ToString()))
+      .ReverseMap()
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<PropertyRequest, PropertyEntity>()
       .ForMember(member => member.PropertyId, options => options.Ignore())
-      .ForMember(member => member.Created, options => options.Ignore());
+      .ForMember(member => member.CreatedAt, options => options.Ignore())
+      .ForMember(member => member.UpdatedAt, options => options.Ignore())
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<PropertyEntity, PropertyResponse>()
       .ForMember(member => member.PropertyId, options => options.MapFrom(property => property.PropertyId.ToString()))
       .ForMember(member => member.PropertyTraces, options => options.Ignore())
       .ReverseMap()
-      .ForMember(member => member.CodeInternal, options => options.Ignore());
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<PropertyImageEntity, PropertyImageResponse>()
       .ForMember(member => member.PropertyImageId, options => options.MapFrom(image => image.PropertyImageId.ToString()))
       .ReverseMap()
-      .ForMember(member => member.Image, options => options.Ignore());
+      .ForMember(member => member.Image, options => options.Ignore())
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<PropertyTraceRequest, PropertyTraceEntity>()
       .ForMember(member => member.PropertyTraceId, options => options.Ignore())
-      .ForMember(member => member.Created, options => options.Ignore());
+      .ForMember(member => member.CreatedAt, options => options.Ignore())
+      .ForMember(member => member.UpdatedAt, options => options.Ignore())
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<PropertyTraceEntity, PropertyTraceResponse>()
-      .ForMember(member => member.PropertyTraceId, options => options.MapFrom(propertyTrace => propertyTrace.PropertyTraceId.ToString()));
+      .ForMember(member => member.PropertyTraceId, options => options.MapFrom(propertyTrace => propertyTrace.PropertyTraceId.ToString()))
+      .ReverseMap()
+      .ForMember(member => member.Version, options => options.Ignore());
     CreateMap<IAsyncEnumerable<(
       OwnerEntity Owner,
       PropertyEntity? Property,

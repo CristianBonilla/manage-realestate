@@ -81,7 +81,8 @@ class AuthIdentity(
         user => user.Firstname,
         user => user.Lastname,
         user => user.IsActive,
-        user => user.Created),
+        user => user.CreatedAt,
+        user => user.UpdatedAt),
       DefaultValueHandling = DefaultValueHandling.Ignore,
       NullValueHandling = NullValueHandling.Ignore
     });

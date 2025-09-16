@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
 using RealEstateProperties.API.Utils;
+using RealEstateProperties.Contracts.Enums;
 using RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties;
 
 namespace RealEstateProperties.API;
@@ -9,7 +10,7 @@ public class Program
   public static async Task Main(string[] args)
   {
     IHost host = CreateHostBuilder(args).Build();
-    await MongoDbConnectionSingleton.Start(host).Connect<RealEstatePropertiesContext>();
+    await DbConnectionSingleton.Start(host).Connect<RealEstatePropertiesContext>(DbConnectionTypes.EnsureCreated);
     await host.RunAsync();
   }
 

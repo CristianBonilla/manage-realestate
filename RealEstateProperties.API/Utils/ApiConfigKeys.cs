@@ -6,6 +6,7 @@ record struct ApiConfigKeys
 {
   public const string AllowOrigins = nameof(AllowOrigins);
   public const string Bearer = nameof(Bearer);
+  public const string DatabaseName = nameof(DatabaseName);
   public const string LocalConnection = nameof(LocalConnection);
   public const string DockerConnection = nameof(DockerConnection);
   public const string DockerComposeConnection = nameof(DockerComposeConnection);
