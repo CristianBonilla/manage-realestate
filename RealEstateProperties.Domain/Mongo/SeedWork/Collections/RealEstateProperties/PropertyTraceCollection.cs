@@ -17,7 +17,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
       Value = 1058000000M,
       Tax = 5430000M,
       DateSale = new(2024, 2, 11, 21, 5, 19, TimeSpan.FromHours(3)),
-      Created = new(2024, 2, 11, 0, 0, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2024, 2, 11, 0, 0, 0, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -27,7 +27,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
       Value = 1117566000M,
       Tax = 6132000M,
       DateSale = new(2024, 5, 20, 8, 20, 0, TimeSpan.FromHours(3)),
-      Created = new(2024, 5, 20, 0, 0, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2024, 5, 20, 0, 0, 0, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -37,7 +37,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
       Value = 1008954000M,
       Tax = 5011000M,
       DateSale = new(2024, 12, 11, 10, 33, 8, TimeSpan.FromHours(3)),
-      Created = new(2024, 12, 11, 0, 0, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2024, 12, 11, 0, 0, 0, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -47,7 +47,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
       Value = 1417844000M,
       Tax = 6234000M,
       DateSale = new(2024, 7, 25, 12, 7, 45, TimeSpan.FromHours(3)),
-      Created = new(2024, 7, 25, 0, 0, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2024, 7, 25, 0, 0, 0, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -57,7 +57,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
       Value = 1122910000M,
       Tax = 8950000M,
       DateSale = new(2024, 8, 22, 1, 2, 18, TimeSpan.FromHours(3)),
-      Created = new(2024, 8, 22, 1, 2, 18, TimeSpan.FromHours(3))
+      CreatedAt = new(2024, 8, 22, 1, 2, 18, TimeSpan.FromHours(3))
     }
   ];
 }

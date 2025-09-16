@@ -18,7 +18,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
       Price = 1358000000,
       CodeInternal = 34432111,
       Year = 2018,
-      Created = new(2023, 1, 27, 11, 1, 26, TimeSpan.FromHours(3))
+      CreatedAt = new(2023, 1, 27, 11, 1, 26, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -29,7 +29,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
       Price = 1297566000,
       CodeInternal = 98801123,
       Year = 2021,
-      Created = new(2023, 1, 27, 12, 5, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2023, 1, 27, 12, 5, 0, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -40,7 +40,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
       Price = 1188954000,
       CodeInternal = 11983367,
       Year = 2020,
-      Created = new(2023, 1, 27, 18, 50, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2023, 1, 27, 18, 50, 0, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -51,7 +51,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
       Price = 1877544000,
       CodeInternal = 87711809,
       Year = 2021,
-      Created = new(2023, 1, 28, 20, 0, 27, TimeSpan.FromHours(3))
+      CreatedAt = new(2023, 1, 28, 20, 0, 27, TimeSpan.FromHours(3))
     },
     new()
     {
@@ -62,7 +62,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
       Price = 1988411000,
       CodeInternal = 43309922,
       Year = 2020,
-      Created = new(2023, 1, 28, 21, 16, 0, TimeSpan.FromHours(3))
+      CreatedAt = new(2023, 1, 28, 21, 16, 0, TimeSpan.FromHours(3))
     }
   ];
 }

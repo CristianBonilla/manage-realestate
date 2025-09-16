@@ -2,5 +2,6 @@ namespace RealEstateProperties.Contracts.Mongo.SeedData;
 
 public interface ISeedData
 {
-  Task LoadAsync();
+  SeedAuthData Auth { get; }
+  SeedRealEstatePropertiesData RealEstateProperties { get; }
 }
