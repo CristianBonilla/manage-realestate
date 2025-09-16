@@ -1,19 +1,29 @@
-using MongoFramework;
-using RealEstateProperties.Domain.Entities.Mongo;
-using RealEstateProperties.Domain.Entities.Mongo.Auth;
-using RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties.Mapping;
+using Microsoft.EntityFrameworkCore;
+using RealEstateProperties.Contracts.Mongo.SeedData;
+using RealEstateProperties.Infrastructure.Extensions;
+using RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties.Config;
 using RealEstateProperties.Infrastructure.Mongo.Extensions;
 
 namespace RealEstateProperties.Infrastructure.Mongo.Contexts.RealEstateProperties;
 
-public class RealEstatePropertiesContext(IMongoDbConnection connection) : MongoDbContext(connection)
+public class RealEstatePropertiesContext : DbContext
 {
-  protected override void OnConfigureMapping(MappingBuilder mappingBuilder)
+  readonly ISeedData _seedData;
+
+  public RealEstatePropertiesContext(DbContextOptions<RealEstatePropertiesContext> options, ISeedData seedData) : base(options)
   {
-    mappingBuilder.ApplyEntityMapping<UserEntity, UserMapping>()
-      .ApplyEntityMapping<OwnerEntity, OwnerMapping>()
-      .ApplyEntityMapping<PropertyEntity, PropertyMapping>()
-      .ApplyEntityMapping<PropertyImageEntity, PropertyImageMapping>()
-      .ApplyEntityMapping<PropertyTraceEntity, PropertyTraceMapping>();
+    Database.AutoTransactionBehavior = AutoTransactionBehavior.Never;
+    _seedData = seedData;
+  }
+
+  protected override void OnModelCreating(ModelBuilder builder)
+  {
+    builder.ApplyEntityTypeConfig(_seedData, typeof(UserConfig));
+    builder.ApplyEntityTypeConfig(_seedData,
+      typeof(OwnerConfig),
+      typeof(PropertyConfig),
+      typeof(PropertyImageConfig),
+      typeof(PropertyTraceConfig)
+    );
   }
 }
