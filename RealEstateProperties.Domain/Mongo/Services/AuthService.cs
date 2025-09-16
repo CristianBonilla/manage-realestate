@@ -20,10 +20,10 @@ public class AuthService(IRealEstatePropertiesRepositoryContext context, IUserRe
     user.Password = password;
     user.Salt = salt;
     user.IsActive = true;
-    _userRepository.Create(user);
-    await _context.SaveAsync();
+    UserEntity addedUser = _userRepository.Create(user);
+    _ = await _context.SaveAsync();
 
-    return user;
+    return addedUser;
   }
 
   public async Task<bool> UserExists(string documentNumber, string username)
@@ -40,7 +40,7 @@ public class AuthService(IRealEstatePropertiesRepositoryContext context, IUserRe
 
   public Task<UserEntity> FindUserById(ObjectId userId)
   {
-    UserEntity user = _userRepository.Find(user => user.UserId == userId)
+    UserEntity user = _userRepository.Find([userId])
       ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"User not found with user identifier \"{userId}\"");
 
     return Task.FromResult(user);

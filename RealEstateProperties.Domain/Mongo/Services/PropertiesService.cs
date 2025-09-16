@@ -26,29 +26,29 @@ public class PropertiesService(
     CheckOwnerExists(property.OwnerId);
     Random random = new();
     property.CodeInternal = random.Next();
-    _propertyRepository.Create(property);
-    await _context.SaveAsync();
+    PropertyEntity addedProperty = _propertyRepository.Create(property);
+    _ = await _context.SaveAsync();
 
-    return property;
+    return addedProperty;
   }
 
   public async Task<PropertyEntity> UpdateProperty(ObjectId propertyId, PropertyEntity property)
   {
     CheckPropertyExists(propertyId);
     CheckOwnerExists(property.OwnerId);
-    _propertyRepository.Update(property);
+    PropertyEntity updatedProperty = _propertyRepository.Update(property);
     await _context.SaveAsync();
 
-    return property;
+    return updatedProperty;
   }
 
   public async Task<PropertyEntity> DeleteProperty(ObjectId propertyId)
   {
     PropertyEntity property = GetProperty(propertyId);
-    _propertyRepository.Delete(property);
-    await _context.SaveAsync();
+    PropertyEntity deletedProperty = _propertyRepository.Delete(property);
+    _ = await _context.SaveAsync();
 
-    return property;
+    return deletedProperty;
   }
 
   public IAsyncEnumerable<(OwnerEntity Owner, PropertyEntity? Property, PropertyTraceEntity? PropertyTrace)> GetProperties()
@@ -115,10 +115,10 @@ public class PropertiesService(
       Image = image,
       ImageName = imageName
     };
-    _propertyImageRepository.Create(propertyImage);
-    await _context.SaveAsync();
+    PropertyImageEntity addedPropertyImage = _propertyImageRepository.Create(propertyImage);
+    _ = await _context.SaveAsync();
 
-    return propertyImage;
+    return addedPropertyImage;
   }
 
   public async Task<PropertyImageEntity> UpdatePropertyImage(ObjectId propertyId, ObjectId propertyImageId, byte[] image, string imageName)
@@ -127,17 +127,17 @@ public class PropertiesService(
     propertyImage.Enabled = true;
     propertyImage.Image = image;
     propertyImage.ImageName = imageName;
-    _propertyImageRepository.Update(propertyImage);
-    await _context.SaveAsync();
+    PropertyImageEntity updatedPropertyImage = _propertyImageRepository.Update(propertyImage);
+    _ = await _context.SaveAsync();
 
-    return propertyImage;
+    return updatedPropertyImage;
   }
 
   public async Task<PropertyImageEntity> DeletePropertyImage(ObjectId propertyId, ObjectId propertyImageId)
   {
     PropertyImageEntity propertyImage = GetPropertyImage(propertyId, propertyImageId);
-    _propertyImageRepository.Delete(propertyImage);
-    await _context.SaveAsync();
+    propertyImage = _propertyImageRepository.Delete(propertyImage);
+    _ = await _context.SaveAsync();
 
     return propertyImage;
   }
@@ -153,10 +153,10 @@ public class PropertiesService(
   public async Task<PropertyTraceEntity> AddPropertyTrace(PropertyTraceEntity propertyTrace)
   {
     CheckPropertyExists(propertyTrace.PropertyId);
-    _propertyTraceRepository.Create(propertyTrace);
-    await _context.SaveAsync();
+    PropertyTraceEntity addPropertyTrace = _propertyTraceRepository.Create(propertyTrace);
+    _ = await _context.SaveAsync();
 
-    return propertyTrace;
+    return addPropertyTrace;
   }
 
   public IAsyncEnumerable<PropertyTraceEntity> GetPropertyTraces(ObjectId propertyId)
@@ -184,7 +184,7 @@ public class PropertiesService(
 
   private PropertyEntity GetProperty(ObjectId propertyId)
   {
-    PropertyEntity property = _propertyRepository.Find(property => property.PropertyId == propertyId)
+    PropertyEntity property = _propertyRepository.Find([propertyId])
       ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"Property not found with property identifier \"{propertyId}\"");
 
     return property;

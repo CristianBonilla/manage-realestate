@@ -14,19 +14,19 @@ public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwner
 
   public async Task<OwnerEntity> AddOwner(OwnerEntity owner)
   {
-    _ownerRepository.Create(owner);
-    await _context.SaveAsync();
+    OwnerEntity addedOwner = _ownerRepository.Create(owner);
+    _ = await _context.SaveAsync();
 
-    return owner;
+    return addedOwner;
   }
 
   public async Task<OwnerEntity> DeleteOwner(ObjectId ownerId)
   {
     OwnerEntity owner = GetOwner(ownerId);
-    _ownerRepository.Delete(owner);
-    await _context.SaveAsync();
+    OwnerEntity deletedOwner = _ownerRepository.Delete(owner);
+    _ = await _context.SaveAsync();
 
-    return owner;
+    return deletedOwner;
   }
 
   public IAsyncEnumerable<OwnerEntity> GetOwners()
@@ -44,15 +44,15 @@ public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwner
     OwnerEntity owner = GetOwner(ownerId);
     owner.Photo = photo;
     owner.PhotoName = photoName;
-    _ownerRepository.Update(owner);
-    await _context.SaveAsync();
+    OwnerEntity updatedOwner = _ownerRepository.Update(owner);
+    _ = await _context.SaveAsync();
 
-    return owner;
+    return updatedOwner;
   }
 
   private OwnerEntity GetOwner(ObjectId ownerId)
   {
-    OwnerEntity owner = _ownerRepository.Find(owner => owner.OwnerId == ownerId)
+    OwnerEntity owner = _ownerRepository.Find([ownerId])
       ?? throw new ServiceErrorException(HttpStatusCode.NotFound, $"Owner not found with owner identifier \"{ownerId}\"");
 
     return owner;
