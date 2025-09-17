@@ -26,8 +26,13 @@ public class AuthService(IRealEstatePropertiesRepositoryContext context, IUserRe
     return addedUser;
   }
 
-  public async Task<bool> UserExists(string documentNumber, string username)
-    => await GetUsers().AnyAsync(user => StringCommonHelper.IsStringEquivalent(user.DocumentNumber, documentNumber) || StringCommonHelper.IsStringEquivalent(user.Username, username));
+  public async Task<bool> UserExists(UserEntity userRequired)
+    => await GetUsers()
+        .AnyAsync(user => 
+          StringCommonHelper.IsStringEquivalent(user.DocumentNumber, userRequired.DocumentNumber) || 
+          StringCommonHelper.IsStringEquivalent(user.Username, userRequired.Username) ||
+          StringCommonHelper.IsStringEquivalent(user.Email, userRequired.Email) ||
+          StringCommonHelper.IsStringEquivalent(user.Mobile, userRequired.Mobile));
 
   public IAsyncEnumerable<UserEntity> GetUsers()
   {

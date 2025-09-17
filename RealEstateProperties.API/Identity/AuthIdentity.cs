@@ -28,7 +28,7 @@ class AuthIdentity(
   {
     bool existingUser = await UserExists(userRegisterRequest);
     if (existingUser)
-      throw new ServiceErrorException(HttpStatusCode.Unauthorized, $"User with provided document number or username already exists");
+      throw new ServiceErrorException(HttpStatusCode.Unauthorized, "User information provided may already exist: documentNumber, username, email or mobile");
     UserEntity user = _mapper.Map<UserEntity>(userRegisterRequest);
     UserEntity addedUser = await _authService.AddUser(user);
 
@@ -45,7 +45,7 @@ class AuthIdentity(
     return GenerateAuthForUser(user);
   }
 
-  public async Task<bool> UserExists(UserRegisterRequest userRegisterRequest) => await _authService.UserExists(userRegisterRequest.DocumentNumber, userRegisterRequest.Username);
+  public async Task<bool> UserExists(UserRegisterRequest userRegisterRequest) => await _authService.UserExists(_mapper.Map<UserEntity>(userRegisterRequest));
 
   private AuthResult GenerateAuthForUser(UserEntity user)
   {

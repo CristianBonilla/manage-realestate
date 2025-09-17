@@ -6,7 +6,7 @@ namespace RealEstateProperties.Contracts.Mongo.Services;
 public interface IAuthService
 {
   Task<UserEntity> AddUser(UserEntity user);
-  Task<bool> UserExists(string documentNumber, string email);
+  Task<bool> UserExists(UserEntity userRequired);
   IAsyncEnumerable<UserEntity> GetUsers();
   Task<UserEntity> FindUserById(ObjectId userId);
   Task<UserEntity> FindUserByUsernameOrEmail(string usernameOrEmail);
