@@ -43,7 +43,7 @@ class CommonInstaller : IInstaller
   private void JsonSerializer(MvcNewtonsoftJsonOptions options)
   {
     JsonSerializerSettings settings = options.SerializerSettings;
-    settings.Converters.Add(new StringEnumConverter());
+    settings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
     settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
     settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
     settings.Formatting = Formatting.None;

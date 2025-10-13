@@ -21,9 +21,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.9" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
     <PackageReference Include="MongoDB.Bson" Version="3.5.0" />
-    <PackageReference Include="MongoDB.EntityFrameworkCore" Version="9.0.1" />
+    <PackageReference Include="MongoDB.EntityFrameworkCore" Version="9.0.2" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="NUnit" Version="4.4.0" />
@@ -31,10 +31,19 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NUnit3TestAdapter" Version="5.1.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstateProperties.API\RealEstateProperties.API.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Contracts\RealEstateProperties.Contracts.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain.Entities\RealEstateProperties.Domain.Entities.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain.Helpers\RealEstateProperties.Domain.Helpers.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Domain\RealEstateProperties.Domain.csproj" />
+    <ProjectReference Include="..\RealEstateProperties.Infrastructure\RealEstateProperties.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
