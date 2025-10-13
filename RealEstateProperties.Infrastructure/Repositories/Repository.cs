@@ -5,24 +5,19 @@ using RealEstateProperties.Contracts.Repository;
 
 namespace RealEstateProperties.Infrastructure.Repositories;
 
-public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext> context) : IRepository<TContext, TEntity>
+public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext> _context) : IRepository<TContext, TEntity>
   where TContext : DbContext
   where TEntity : class
 {
-  readonly DbSet<TEntity> _entitySet = context.Set<TEntity>();
-  readonly Func<TEntity, EntityEntry<TEntity>> _entityEntry = entity => context.Entry(entity);
+  readonly DbSet<TEntity> _entitySet = _context.Set<TEntity>();
+  readonly Func<TEntity, EntityEntry<TEntity>> _entityEntry = entity => _context.Entry(entity);
 
   public TEntity Create(TEntity entity) => _entitySet.Add(entity).Entity;
 
   public IEnumerable<TEntity> CreateRange(IEnumerable<TEntity> entities)
   {
-    return [.. Range()];
-
-    IEnumerable<TEntity> Range()
-    {
-      foreach (TEntity entity in entities)
-        yield return Create(entity);
-    }
+    foreach (TEntity entity in entities)
+      yield return Create(entity);
   }
 
   public TEntity Update(TEntity entity)
@@ -37,13 +32,8 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
 
   public IEnumerable<TEntity> UpdateRange(IEnumerable<TEntity> entities)
   {
-    return [.. Range()];
-
-    IEnumerable<TEntity> Range()
-    {
-      foreach (TEntity entity in entities)
-        yield return Update(entity);
-    }
+    foreach (TEntity entity in entities)
+      yield return Update(entity);
   }
 
   public TEntity Delete(TEntity entity)
@@ -58,13 +48,8 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
 
   public IEnumerable<TEntity> DeleteRange(IEnumerable<TEntity> entities)
   {
-    return [.. Range()];
-
-    IEnumerable<TEntity> Range()
-    {
-      foreach (TEntity entity in entities)
-        yield return Delete(entity);
-    }
+    foreach (TEntity entity in entities)
+      yield return Delete(entity);
   }
 
   public TEntity? Find(object[] keyValues, params Expression<Func<TEntity, object>>[] navigations)
@@ -80,12 +65,12 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
 
   public IEnumerable<TEntity> GetAll(
     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-    params Expression<Func<TEntity, object>>[] navigations) => [.. orderBy is not null ? orderBy(WithNavigations(navigations)).AsQueryable() : WithNavigations(navigations)];
+    params Expression<Func<TEntity, object>>[] navigations) => orderBy is not null ? orderBy(WithNavigations(navigations)) : WithNavigations(navigations);
 
   public IEnumerable<TEntity> GetByFilter(
     Expression<Func<TEntity, bool>> filter,
     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-    params Expression<Func<TEntity, object>>[] navigations) => [.. (orderBy is not null ? orderBy(WithNavigations(navigations)) : WithNavigations(navigations)).Where(filter)];
+    params Expression<Func<TEntity, object>>[] navigations) => (orderBy is not null ? orderBy(WithNavigations(navigations)) : WithNavigations(navigations)).Where(filter);
 
   private IQueryable<TEntity> WithNavigations(params Expression<Func<TEntity, object>>[] navigations)
   {
