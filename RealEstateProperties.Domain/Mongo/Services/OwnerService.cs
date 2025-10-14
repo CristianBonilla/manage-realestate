@@ -7,10 +7,18 @@ using RealEstateProperties.Infrastructure.Mongo.Repositories.RealEstatePropertie
 
 namespace RealEstateProperties.Domain.Mongo.Services;
 
-public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwnerRepository ownerRepository) : IOwnerService
+public class OwnerService(
+  IRealEstatePropertiesRepositoryContext context,
+  IOwnerRepository ownerRepository,
+  IPropertyRepository propertyRepository,
+  IPropertyImageRepository propertyImageRepository,
+  IPropertyTraceRepository propertyTraceRepository) : IOwnerService
 {
   readonly IRealEstatePropertiesRepositoryContext _context = context;
   readonly IOwnerRepository _ownerRepository = ownerRepository;
+  readonly IPropertyRepository _propertyRepository = propertyRepository;
+  readonly IPropertyImageRepository _propertyImageRepository = propertyImageRepository;
+  readonly IPropertyTraceRepository _propertyTraceRepository = propertyTraceRepository;
 
   public async Task<OwnerEntity> AddOwner(OwnerEntity owner)
   {
@@ -23,10 +31,24 @@ public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwner
   public async Task<OwnerEntity> DeleteOwner(ObjectId ownerId)
   {
     OwnerEntity owner = GetOwner(ownerId);
+    var propertiesByOwner = _propertyRepository.GetByFilter(property => property.OwnerId == ownerId);
+    foreach (PropertyEntity property in propertiesByOwner)
+    {
+      DeletePropertyDependencies(property);
+    }
+    _ = _propertyRepository.DeleteRange(propertiesByOwner);
     OwnerEntity deletedOwner = _ownerRepository.Delete(owner);
     _ = await _context.SaveAsync();
 
     return deletedOwner;
+
+    void DeletePropertyDependencies(PropertyEntity property)
+    {
+      var propertyImages = _propertyImageRepository.GetByFilter(propertyImage => propertyImage.PropertyId == property.PropertyId);
+      var propertyTraces = _propertyTraceRepository.GetByFilter(propertyTrace => propertyTrace.PropertyId == property.PropertyId);
+      _ = _propertyImageRepository.DeleteRange(propertyImages);
+      _ = _propertyTraceRepository.DeleteRange(propertyTraces);
+    }
   }
 
   public IAsyncEnumerable<OwnerEntity> GetOwners()
