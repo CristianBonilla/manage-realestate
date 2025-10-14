@@ -2,6 +2,7 @@ using System.Net;
 using RealEstateProperties.Contracts.Exceptions;
 using RealEstateProperties.Contracts.Services;
 using RealEstateProperties.Domain.Entities;
+using RealEstateProperties.Domain.Helpers;
 using RealEstateProperties.Infrastructure.Repositories.RealEstateProperties.Interfaces;
 
 namespace RealEstateProperties.Domain.Services;
@@ -13,6 +14,7 @@ public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwner
 
   public async Task<OwnerEntity> AddOwner(OwnerEntity owner)
   {
+    await CheckOwnerByName(owner.Name);
     OwnerEntity addedOwner = _ownerRepository.Create(owner);
     _ = await _context.SaveAsync();
 
@@ -47,6 +49,14 @@ public class OwnerService(IRealEstatePropertiesRepositoryContext context, IOwner
     _ = await _context.SaveAsync();
 
     return updatedOwner;
+  }
+
+  private async Task CheckOwnerByName(string ownerName)
+  {
+    bool existingOwner = await GetOwners()
+      .AnyAsync(owner => StringCommonHelper.IsStringEquivalent(owner.Name, ownerName));
+    if (existingOwner)
+      throw new ServiceErrorException(HttpStatusCode.BadRequest, $"Owner with the name \"{ownerName}\" already exists");
   }
 
   private OwnerEntity GetOwner(Guid ownerId)

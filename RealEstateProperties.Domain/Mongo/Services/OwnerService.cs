@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using RealEstateProperties.Contracts.Exceptions;
 using RealEstateProperties.Contracts.Mongo.Services;
 using RealEstateProperties.Domain.Entities.Mongo;
+using RealEstateProperties.Domain.Helpers;
 using RealEstateProperties.Infrastructure.Mongo.Repositories.RealEstateProperties.Interfaces;
 
 namespace RealEstateProperties.Domain.Mongo.Services;
@@ -22,6 +23,7 @@ public class OwnerService(
 
   public async Task<OwnerEntity> AddOwner(OwnerEntity owner)
   {
+    await CheckOwnerByName(owner.Name);
     OwnerEntity addedOwner = _ownerRepository.Create(owner);
     _ = await _context.SaveAsync();
 
@@ -70,6 +72,14 @@ public class OwnerService(
     _ = await _context.SaveAsync();
 
     return updatedOwner;
+  }
+
+  private async Task CheckOwnerByName(string ownerName)
+  {
+    bool existingOwner = await GetOwners()
+      .AnyAsync(owner => StringCommonHelper.IsStringEquivalent(owner.Name, ownerName));
+    if (existingOwner)
+      throw new ServiceErrorException(HttpStatusCode.BadRequest, $"Owner with the name \"{ownerName}\" already exists");
   }
 
   private OwnerEntity GetOwner(ObjectId ownerId)
