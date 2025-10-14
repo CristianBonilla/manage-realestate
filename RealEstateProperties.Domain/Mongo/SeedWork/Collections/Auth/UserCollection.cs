@@ -1,4 +1,3 @@
-using MongoDB.Bson;
 using RealEstateProperties.Contracts.SeedData;
 using RealEstateProperties.Domain.Entities.Mongo.Auth;
 
@@ -12,7 +11,7 @@ class UserCollection : SeedDataCollection<UserEntity>
   protected override UserEntity[] Collection => [
     new()
     {
-      UserId = ObjectId.GenerateNewId(),
+      UserId = new("68ed98795e9a77cf7005834f"),
       DocumentNumber = "1023944678",
       Mobile = "+573163534451",
       Username = "chris__boni",

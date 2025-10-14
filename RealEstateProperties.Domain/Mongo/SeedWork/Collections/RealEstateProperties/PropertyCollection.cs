@@ -1,4 +1,3 @@
-using MongoDB.Bson;
 using RealEstateProperties.Contracts.SeedData;
 using RealEstateProperties.Domain.Entities.Mongo;
 
@@ -11,7 +10,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
   protected override PropertyEntity[] Collection => [
     new()
     {
-      PropertyId = ObjectId.GenerateNewId(),
+      PropertyId = new("68ed98a65e9a77cf70058350"),
       OwnerId = _owners[0].OwnerId,
       Name = "Headland Waters Mount Martha",
       Address = "6677 Schroeder Avenue",
@@ -22,7 +21,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
     },
     new()
     {
-      PropertyId = ObjectId.GenerateNewId(),
+      PropertyId = new("68ed98a65e9a77cf70058351"),
       OwnerId = _owners[0].OwnerId,
       Name = "Luyary Jeddo",
       Address = "Moussaouidreef 8",
@@ -33,7 +32,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
     },
     new()
     {
-      PropertyId = ObjectId.GenerateNewId(),
+      PropertyId = new("68ed98a65e9a77cf70058352"),
       OwnerId = _owners[0].OwnerId,
       Name = "Runneymede",
       Address = "8098 Yundt Mission",
@@ -44,7 +43,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
     },
     new()
     {
-      PropertyId = ObjectId.GenerateNewId(),
+      PropertyId = new("68ed98a65e9a77cf70058353"),
       OwnerId = _owners[1].OwnerId,
       Name = "Zuburnano Up",
       Address = "701, avenue de Guilbert",
@@ -55,7 +54,7 @@ class PropertyCollection : SeedDataCollection<PropertyEntity>
     },
     new()
     {
-      PropertyId = ObjectId.GenerateNewId(),
+      PropertyId = new("68ed98a65e9a77cf70058354"),
       OwnerId = _owners[1].OwnerId,
       Name = "The Kingfisher",
       Address = "193 Kshlerin Spring",

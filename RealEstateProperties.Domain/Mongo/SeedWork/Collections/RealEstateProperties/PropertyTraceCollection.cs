@@ -1,4 +1,3 @@
-using MongoDB.Bson;
 using RealEstateProperties.Contracts.SeedData;
 using RealEstateProperties.Domain.Entities.Mongo;
 
@@ -11,7 +10,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
   protected override PropertyTraceEntity[] Collection => [
     new()
     {
-      PropertyTraceId = ObjectId.GenerateNewId(),
+      PropertyTraceId = new("68ed993c5e9a77cf70058364"),
       PropertyId = _properties[0].PropertyId,
       Name = "Headland Waters Mount Martha Trace",
       Value = 1058000000M,
@@ -21,7 +20,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
     },
     new()
     {
-      PropertyTraceId = ObjectId.GenerateNewId(),
+      PropertyTraceId = new("68ed993c5e9a77cf70058365"),
       PropertyId = _properties[1].PropertyId,
       Name = "Luyary Jeddo Trace",
       Value = 1117566000M,
@@ -31,7 +30,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
     },
     new()
     {
-      PropertyTraceId = ObjectId.GenerateNewId(),
+      PropertyTraceId = new("68ed993c5e9a77cf70058366"),
       PropertyId = _properties[2].PropertyId,
       Name = "Runneymede Trace",
       Value = 1008954000M,
@@ -41,7 +40,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
     },
     new()
     {
-      PropertyTraceId = ObjectId.GenerateNewId(),
+      PropertyTraceId = new("68ed993c5e9a77cf70058367"),
       PropertyId = _properties[3].PropertyId,
       Name = "Zuburnano Up Trace",
       Value = 1417844000M,
@@ -51,7 +50,7 @@ class PropertyTraceCollection : SeedDataCollection<PropertyTraceEntity>
     },
     new()
     {
-      PropertyTraceId = ObjectId.GenerateNewId(),
+      PropertyTraceId = new("68ed993c5e9a77cf70058368"),
       PropertyId = _properties[4].PropertyId,
       Name = "The Kingfisher Trace",
       Value = 1122910000M,

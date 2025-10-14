@@ -1,4 +1,3 @@
-using MongoDB.Bson;
 using RealEstateProperties.Contracts.SeedData;
 using RealEstateProperties.Domain.Entities.Mongo;
 using RealEstateProperties.Domain.SeedWork;
@@ -10,7 +9,7 @@ class OwnerCollection : SeedDataCollection<OwnerEntity>
   protected override OwnerEntity[] Collection => [
     new()
     {
-      OwnerId = ObjectId.GenerateNewId(),
+      OwnerId = new("68ed97fd5e9a77cf70058346"),
       Name = "Cristian Camilo Bonilla",
       Address = "Cl. 139 # 94 - 90",
       Photo = SeedImagesData.OwnerPhotos[0],
@@ -20,7 +19,7 @@ class OwnerCollection : SeedDataCollection<OwnerEntity>
     },
     new()
     {
-      OwnerId = ObjectId.GenerateNewId(),
+      OwnerId = new("68ed97fd5e9a77cf7005834a"),
       Name = "Mayerlis Cordero",
       Address = "Cl. 169 # 20-57",
       Photo = SeedImagesData.OwnerPhotos[1],

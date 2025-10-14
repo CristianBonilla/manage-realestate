@@ -57,6 +57,9 @@ class PropertyConfig(ISeedData? seedData = null) : IEntityTypeConfiguration<Prop
     builder.Property(property => property.PropertyId)
       .HasValueGenerator<ObjectIdGenerator>()
       .ValueGeneratedOnAdd();
+    builder.Property(property => property.OwnerId)
+      .HasElementName("ownerId")
+      .IsRequired();
     builder.Property(property => property.Name)
       .HasElementName("name")
       .IsRequired();
@@ -100,6 +103,9 @@ class PropertyImageConfig(ISeedData? seedData = null) : IEntityTypeConfiguration
     builder.Property(property => property.PropertyImageId)
       .HasValueGenerator<ObjectIdGenerator>()
       .ValueGeneratedOnAdd();
+    builder.Property(property => property.PropertyId)
+      .HasElementName("propertyId")
+      .IsRequired();
     builder.Property(property => property.Image)
       .HasElementName("image")
       .IsRequired();
@@ -136,6 +142,9 @@ class PropertyTraceConfig(ISeedData? seedData = null) : IEntityTypeConfiguration
     builder.Property(property => property.PropertyTraceId)
       .HasValueGenerator<ObjectIdGenerator>()
       .ValueGeneratedOnAdd();
+    builder.Property(property => property.PropertyId)
+      .HasElementName("propertyId")
+      .IsRequired();
     builder.Property(property => property.Name)
       .HasElementName("name")
       .IsRequired();
