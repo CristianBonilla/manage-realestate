@@ -81,7 +81,7 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
     if (!ObjectId.TryParse(ownerId, out ObjectId ownerIdValue))
       return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {ownerId} to search for the owner");
     if (photo.Length <= 0)
-      return StatusCode(StatusCodes.Status400BadRequest, "There is no owner photo to process");
+      return NotFound("There is no owner photo to process");
     byte[] photoBytes = await ImageStreamUtils.GetImageBytes(photo);
     OwnerEntity owner = await _ownerService.AddOrUpdateOwnerPhoto(ownerIdValue, photoBytes, photo.FileName);
     OwnerResponse ownerResponse = _mapper.Map<OwnerResponse>(owner);
@@ -100,7 +100,7 @@ public class OwnerController(IMapper mapper, IOwnerService ownerService) : Contr
       return StatusCode(StatusCodes.Status400BadRequest, $"Invalid identifier {ownerId} to search for the owner");
     OwnerEntity owner = await _ownerService.FindOwnerById(ownerIdValue);
     if (owner.Photo is null)
-      return StatusCode(StatusCodes.Status400BadRequest, "There is no owner photo to process");
+      return NotFound("There is no owner photo to process");
 
     return File(owner.Photo, "application/octect-stream", owner.PhotoName);
   }
