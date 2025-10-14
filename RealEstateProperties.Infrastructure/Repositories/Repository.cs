@@ -16,8 +16,13 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
 
   public IEnumerable<TEntity> CreateRange(IEnumerable<TEntity> entities)
   {
-    foreach (TEntity entity in entities)
-      yield return Create(entity);
+    return [..Range()];
+
+    IEnumerable<TEntity> Range()
+    {
+      foreach (TEntity entity in entities)
+        yield return Create(entity);
+    }
   }
 
   public TEntity Update(TEntity entity)
@@ -32,8 +37,13 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
 
   public IEnumerable<TEntity> UpdateRange(IEnumerable<TEntity> entities)
   {
-    foreach (TEntity entity in entities)
-      yield return Update(entity);
+    return [..Range()];
+
+    IEnumerable<TEntity> Range()
+    {
+      foreach (TEntity entity in entities)
+        yield return Update(entity);
+    }
   }
 
   public TEntity Delete(TEntity entity)
@@ -48,8 +58,13 @@ public abstract class Repository<TContext, TEntity>(IRepositoryContext<TContext>
 
   public IEnumerable<TEntity> DeleteRange(IEnumerable<TEntity> entities)
   {
-    foreach (TEntity entity in entities)
-      yield return Delete(entity);
+    return [..Range()];
+
+    IEnumerable<TEntity> Range()
+    {
+      foreach (TEntity entity in entities)
+        yield return Delete(entity);
+    }
   }
 
   public TEntity? Find(object[] keyValues, params Expression<Func<TEntity, object>>[] navigations)
